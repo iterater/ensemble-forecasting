@@ -17,7 +17,7 @@ def average_by_time(p_time, data):
 
 def plot_errors(pLevel):
     plt.figure(1, figsize=(9, 12))
-    p = np.genfromtxt('d:\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
+    p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
     N_SRC = 3
     tRange = np.arange(0, 61)
     plt.subplots_adjust(wspace=0, hspace=0)
@@ -85,13 +85,13 @@ def plot_errors(pLevel):
             plt.ylabel('D error')
         plt.xlabel('Forecast time, hours')
     # plt.tight_layout(h_pad=0, w_pad=0)
-    plt.savefig('d:\\PEAK_ERRS_S1_'+str(pLevel).zfill(3)+'.png')
+    plt.savefig('pics\\PEAK_ERRS_S1_'+str(pLevel).zfill(3)+'.png')
     plt.close()
 
 
 def plot_stats(pLevel):
     plt.figure(1, figsize=(14, 24))
-    p = np.genfromtxt('d:\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
+    p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
     N_SRC = 3
     for src_i in range(N_SRC):
         # H label
@@ -267,7 +267,7 @@ def plot_stats(pLevel):
             plt.plot(pdf, x, linewidth=2)
             plt.hist(m_vals, histtype='step', normed=True, orientation="horizontal")
     plt.tight_layout()
-    plt.savefig('d:\\PEAK_STATS_S1_'+str(pLevel).zfill(3)+'.png')
+    plt.savefig('pics\\PEAK_STATS_S1_'+str(pLevel).zfill(3)+'.png')
     plt.close()
     # plt.show()
 
@@ -293,7 +293,7 @@ def regr_coeff(x, y):
 
 
 def regr_coeff_all(pLevel):
-    p = np.genfromtxt('d:\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
+    p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
     p1 = np.zeros(p.shape)
     for i in range(4):
         p1[:, 4*i + 1] = p[:, 4*i + 2]
@@ -319,7 +319,7 @@ def revert_index(idx, N):
 
 
 def calc_correlations():
-    p = np.genfromtxt('d:\\PEAK_PARAMS_S1_060.csv', delimiter=',')
+    p = np.genfromtxt('data\\PEAK_PARAMS_S1_060.csv', delimiter=',')
     p1 = np.zeros(p.shape)
     for i in range(4):
         p1[:, 4*i + 1] = p[:, 4*i + 2]
@@ -339,15 +339,15 @@ def calc_correlations():
             data2 = p1[:, revert_index(j, 4) + 1].flatten()
             msk = ~np.isnan(data1) & ~np.isnan(data2)
             c[i, j] = np.corrcoef(data1[msk], data2[msk])[0, 1]
-    np.savetxt('d:\\correlation.txt', c)
-    f = open('d:\\correlation_names.txt', 'w')
+    np.savetxt('data\\correlation.txt', c)
+    f = open('data\\correlation_names.txt', 'w')
     f.write(params_list)
     f.close()
 
 prange = np.arange(60, 161, 20)
 for i in range(len(prange)):
     cf = regr_coeff_all(prange[i])
-    np.savetxt('d:\\regr_coeff_'+str(prange[i]).zfill(3)+'.txt', cf)
+    np.savetxt('data\\regr_coeff_'+str(prange[i]).zfill(3)+'.txt', cf)
     print(cf)
 
 # prange = np.arange(60, 161, 20)
@@ -355,7 +355,7 @@ for i in range(len(prange)):
     # plot_stats(prange[i])
     # plot_errors(prange[i])
 
-#     p = np.genfromtxt('d:\\PEAK_PARAMS_S1_'+str(prange[i]).zfill(3)+'.csv', delimiter=',')
+#     p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(prange[i]).zfill(3)+'.csv', delimiter=',')
 #     vals = p[:, 2].flatten()
 #     vals = vals[~np.isnan(vals)]
 #     #plt.hist(vals, histtype='step', normed=True)
