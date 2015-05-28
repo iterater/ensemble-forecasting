@@ -3,10 +3,10 @@ import scipy.interpolate as interp
 import matplotlib.pyplot as plt
 import math as mt
 
-s1 = np.loadtxt('D:/Data/Ensemble_forecast/2/2013102012-BSM-WOWC-HIRLAM-S1.txt')
-s2 = np.loadtxt('D:/Data/Ensemble_forecast/2/2013102012-BALTP-90M-GFS-S1.txt')[:, 0:61]
-s3 = np.loadtxt('D:/Data/Ensemble_forecast/2/2013102012-HIROMB-S1.txt') - 37.4
-m = np.loadtxt('D:/Data/Ensemble_forecast/2/2013102012-M-GI_C1NB_C1FG_SHEP_restored.txt')[:, 2]
+s1 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BSM-WOWC-HIRLAM-S1.txt')
+s2 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BALTP-90M-GFS-S1.txt')[:, 0:61]
+s3 = np.loadtxt('data\\ensemble-forecasts\\2013102012-HIROMB-S1.txt') - 37.4
+m = np.loadtxt('data\\ensemble-forecasts\\2013102012-M-GI_C1NB_C1FG_SHEP_restored.txt')[:, 2]
 print(np.shape(s1))
 print(np.shape(s2))
 print(np.shape(s3))
@@ -78,7 +78,7 @@ plt.title('Simple ensemble MAE')
 plt.xlabel('Forecast index')
 plt.ylabel('Forecast MAE, cm')
 plt.xlim([0, N])
-plt.savefig('simple-ensemble-mae.png')
+plt.savefig('pics\\simple-ensemble-mae.png')
 plt.close()
 
 plt.figure(1, figsize=(12, 5))
@@ -88,7 +88,7 @@ plt.title('Ensemble WMAE')
 plt.xlabel('Forecast index')
 plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
 plt.xlim([0, N])
-plt.savefig('simple-ensemble-wmae.png')
+plt.savefig('pics\\simple-ensemble-wmae.png')
 plt.close()
 
 
@@ -132,8 +132,8 @@ def transform_forecast(fc, original_peak, target_peak, scale_vertical):
     return res
 
 
-p = np.genfromtxt('d:\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
-pc = np.loadtxt('d:\\regr_coeff_'+str(pLevel).zfill(3)+'.txt')
+p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
+pc = np.loadtxt('data\\regr_coeff_'+str(pLevel).zfill(3)+'.txt')
 mask = ~np.isnan(p[:, 0])
 for i in range(13):
     mask &= ~np.isnan(p[:, i])
@@ -163,7 +163,7 @@ for i in range(len(p_flt)):
         e_fc += src_set[src_i][p_flt[i, 0]] * c[src_i]
     plt.plot(t_idx, e_fc, 'k--')
     plt.xlim([0, T])
-    plt.savefig('plt\\forecast-' + str(i).zfill(3) + '.png')
+    plt.savefig('pics\\all-forecasts\\forecast-' + str(i).zfill(3) + '.png')
     plt.close()
 
 
@@ -180,7 +180,7 @@ plt.title('Simple ensemble MAE')
 plt.xlabel('Forecast index')
 plt.ylabel('Forecast MAE, cm')
 plt.xlim([0, N - 1])
-plt.savefig('ensemble-1-mae.png')
+plt.savefig('pics\\ensemble-1-mae.png')
 plt.close()
 
 plt.figure(1, figsize=(12, 5))
@@ -190,5 +190,5 @@ plt.title('Ensemble WMAE')
 plt.xlabel('Forecast index')
 plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
 plt.xlim([0, N - 1])
-plt.savefig('ensemble-1-wmae.png')
+plt.savefig('pics\\ensemble-1-wmae.png')
 plt.close()
