@@ -1,5 +1,3 @@
-- WMAE
-- Peak error
 - Level scaling a) +peak; b) +all; c) *peak
 - Different peak level
 - Parameters estimation

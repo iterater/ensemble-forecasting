@@ -1,7 +1,9 @@
+from scipy.stats import gaussian_kde
 import numpy as np
 import scipy.interpolate as interp
 import matplotlib.pyplot as plt
 import math as mt
+from sklearn.neighbors.kde import KernelDensity
 
 s1 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BSM-WOWC-HIRLAM-S1.txt')
 s2 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BALTP-90M-GFS-S1.txt')[:, 0:61]
@@ -45,6 +47,17 @@ def lse_coeff(fcs, start_index, stop_index, w):
     b[len(fcs)] = np.sum(w*m_fc[start_index:stop_index+1, 1:T+1])
     a[len(fcs), len(fcs)] = np.sum(w)
     return np.linalg.solve(a, b)
+
+
+def forecast_peak_error(fc, msk_l):
+    msk_b = np.ones(len(fc), dtype=bool)
+    msk_b[msk_l] = 0
+    max_l_err = np.amax(fc, axis=1) - np.amax(m_fc, axis=1)
+    max_t_err = (np.argmax(fc, axis=1) - np.argmax(m_fc, axis=1)).astype(float)
+    msk_add = (max_l_err > 20) | (max_l_err < -20) | (max_t_err > 10) | (max_t_err < -10)
+    max_l_err[msk_b | msk_add] = np.nan
+    max_t_err[msk_b | msk_add] = np.nan
+    return np.vstack((max_t_err, max_l_err))
 
 
 def forecast_wmae(fc, pl):
@@ -92,7 +105,6 @@ plt.savefig('pics\\simple-ensemble-wmae.png')
 plt.close()
 
 
-
 def transform_forecast(fc, original_peak, target_peak, scale_vertical):
     # Full scale
     # t_src_nodes = [-1, np.round(original_peak[1] - original_peak[2] * original_peak[3]), np.round(original_peak[1]), np.round(original_peak[1] + original_peak[2] * (1.0 - original_peak[3])), T + 1]
@@ -104,16 +116,36 @@ def transform_forecast(fc, original_peak, target_peak, scale_vertical):
     p_end = min(p_end, T)
     t_src_nodes = [-1, p_start, np.round(original_peak[1]), p_end, T + 1]
     t_dst_nodes = [-1, p_start, np.round(target_peak[1]), p_end, T + 1]
-    scale = np.full(fc.shape, 1)
-    if scale_vertical:
-        for t_fc in range(T + 1):
-            if t_fc == t_src_nodes[2]:
-                scale[t_fc] = target_peak[0] / original_peak[0]
-            if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
-                scale[t_fc] = (target_peak[0] / original_peak[0]) * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
-            if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
-                scale[t_fc] = (target_peak[0] / original_peak[0]) * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
-    l_res = fc * scale
+    # multiplication scale
+    # scale = np.full(fc.shape, 1)
+    # mult = target_peak[0] / original_peak[0]
+    # if scale_vertical:
+    #     for t_fc in range(T + 1):
+    #         if t_fc == t_src_nodes[2]:
+    #             scale[t_fc] = mult
+    #         if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
+    #             scale[t_fc] = mult * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
+    #         if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
+    #             scale[t_fc] = mult * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
+    # l_res = fc * scale
+    # additive scale
+    # scale = np.full(fc.shape, 0)
+    # add = target_peak[0] - original_peak[0]
+    # if scale_vertical:
+    #     for t_fc in range(T + 1):
+    #         if t_fc == t_src_nodes[2]:
+    #             scale[t_fc] = add
+    #         if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
+    #             scale[t_fc] = add * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
+    #         if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
+    #             scale[t_fc] = add * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
+    # l_res = fc + scale
+    # additive all scale
+    scale = target_peak[0] - original_peak[0]
+    l_res = fc + scale
+
+
+
     l_res = np.concatenate(([l_res[0]], l_res, [l_res[-1]]))
     t_res = np.array([])
     for node_i in range(4):
@@ -142,7 +174,7 @@ t_idx = np.arange(0, 61)
 colors = ('b', 'g', 'r')
 peak_l = [pLevel, pLevel, pLevel]
 for i in range(len(p_flt)):
-    plt.figure(i, figsize=(12, 9))
+    # plt.figure(i, figsize=(12, 9))
     params = []
     res_params = pc[:, 3].flatten()
     for src_i in range(3):
@@ -150,21 +182,21 @@ for i in range(len(p_flt)):
         p2 = [p1[1], p1[0], p1[2] + p1[3], p1[2] / (p1[2] + p1[3])]
         params += [p2]
         res_params = res_params + np.array(p2) * pc[:, src_i].flatten()
-        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
-    plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
+        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
+    # plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
     peak_t = [res_params[1] - res_params[2] * res_params[3], res_params[1], res_params[1] + res_params[2] * (1.0 - res_params[3])]
     peak_l[1] = res_params[0]
-    plt.plot(peak_t, peak_l, '^', markersize=10)
-    plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-')
+    # plt.plot(peak_t, peak_l, '^', markersize=10)
+    # plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-')
     e_fc = np.full(T + 1, c[3])
     for src_i in range(3):
-        src_set[src_i][p_flt[i, 0]] = transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i], res_params, False)
-        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
+        src_set[src_i][p_flt[i, 0]] = transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i], res_params, True)
+        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
         e_fc += src_set[src_i][p_flt[i, 0]] * c[src_i]
-    plt.plot(t_idx, e_fc, 'k--')
-    plt.xlim([0, T])
-    plt.savefig('pics\\all-forecasts\\forecast-' + str(i).zfill(3) + '.png')
-    plt.close()
+    # plt.plot(t_idx, e_fc, 'k--')
+    # plt.xlim([0, T])
+    # plt.savefig('pics\\all-forecasts-lat-scale\\forecast-' + str(i).zfill(3) + '.png')
+    # plt.close()
 
 
 c = lse_coeff(src_set, 0, N - 1, w)
@@ -191,4 +223,74 @@ plt.xlabel('Forecast index')
 plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
 plt.xlim([0, N - 1])
 plt.savefig('pics\\ensemble-1-wmae.png')
+plt.close()
+
+plt.figure(1, figsize=(12, 5))
+fc_def_err = forecast_peak_error(fc_def, np.array(p_flt[:, 0]).flatten().astype(int))
+fc_1_err = forecast_peak_error(fc_1, np.array(p_flt[:, 0]).flatten().astype(int))
+plt.plot(indexRange, fc_def_err[0], 'o-')
+plt.plot(indexRange, fc_1_err[0], 'o-')
+plt.legend(['Ensemble def', 'Ensemble #1'])
+plt.xlabel('Forecast index')
+plt.ylabel('Peak time error, h')
+plt.xlim([0, N - 1])
+plt.savefig('pics\\ensemble-1-pet.png')
+plt.close()
+
+plt.figure(1, figsize=(12, 5))
+plt.plot(indexRange, fc_def_err[1], 'o-')
+plt.plot(indexRange, fc_1_err[1], 'o-')
+plt.legend(['Ensemble def', 'Ensemble #1'])
+plt.xlabel('Forecast index')
+plt.ylabel('Peak level error, cm')
+plt.xlim([0, N - 1])
+plt.savefig('pics\\ensemble-1-pel.png')
+plt.close()
+
+plt.figure(1, figsize=(8, 6))
+nan_filter = ~np.isnan(fc_def_err[1]) & ~np.isnan(fc_1_err[1])
+lim = [-30, 30]
+# gkde = gaussian_kde(fc_def_err[1][nan_filter])
+x = np.linspace(lim[0], lim[1], 100)
+# pdf = gkde(x)
+# plt.plot(x, pdf, linewidth=2, color='b')
+plt.hist(fc_def_err[1][nan_filter], histtype='step', normed=True, color='b')
+kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_def_err[1][nan_filter]).reshape(-1, 1))
+plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
+# gkde = gaussian_kde(fc_1_err[1][nan_filter])
+# pdf = gkde(x)
+# plt.plot(x, pdf, linewidth=2, color='r')
+plt.hist(fc_1_err[1][nan_filter], histtype='step', normed=True, color='r')
+kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_1_err[1][nan_filter]).reshape(-1, 1))
+plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
+plt.legend(['Ensemble def', 'Ensemble #1'])
+plt.xlabel('Peak level error, cm')
+plt.ylabel('PDF')
+plt.savefig('pics\\ensemble-1-pel-pdf.png')
+plt.close()
+
+plt.figure(1, figsize=(8, 6))
+nan_filter = ~np.isnan(fc_def_err[0]) & ~np.isnan(fc_1_err[0])
+print('Error def (T, L): ')
+print(np.mean(fc_def_err[:, nan_filter], axis=1))
+print('Error 1 (T, L): ')
+print(np.mean(fc_1_err[:, nan_filter], axis=1))
+lim = [-10, 10]
+# gkde = gaussian_kde(fc_def_err[0][nan_filter])
+x = np.linspace(lim[0], lim[1], 100)
+# pdf = gkde(x)
+# plt.plot(x, pdf, linewidth=2, color='b')
+plt.hist(fc_def_err[0][nan_filter], histtype='step', normed=True, color='b')
+kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_def_err[0][nan_filter]).reshape(-1, 1))
+plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
+# gkde = gaussian_kde(fc_1_err[0][nan_filter])
+# pdf = gkde(x)
+# plt.plot(x, pdf, linewidth=2, color='r')
+plt.hist(fc_1_err[0][nan_filter], histtype='step', normed=True, color='r')
+kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_1_err[0][nan_filter]).reshape(-1, 1))
+plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
+plt.legend(['Ensemble def', 'Ensemble #1'])
+plt.xlabel('Peak time error, h')
+plt.ylabel('PDF')
+plt.savefig('pics\\ensemble-1-pet-pdf.png')
 plt.close()
