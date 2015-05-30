@@ -1,4 +1,5 @@
 from scipy.stats import gaussian_kde
+import os
 import numpy as np
 import scipy.interpolate as interp
 import matplotlib.pyplot as plt
@@ -74,7 +75,12 @@ def forecast_error(fc):
     return mae
 
 
-pLevel = 60
+pLevel = 80
+level_scale_mode = 1 # 0 - mult, 1 - add, 2 - add-all
+level_scale_flag = False
+level_scale_flag_string = ''
+if level_scale_flag:
+    level_scale_flag_string = 'l' + str(level_scale_mode)
 w = create_w_mask(N, 0)
 src_set = (s1, s2, s3)
 c = lse_coeff(src_set, 0, N - 1, w)
@@ -91,7 +97,7 @@ plt.title('Simple ensemble MAE')
 plt.xlabel('Forecast index')
 plt.ylabel('Forecast MAE, cm')
 plt.xlim([0, N])
-plt.savefig('pics\\simple-ensemble-mae.png')
+plt.savefig('pics\\simple-ensemble-mae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
 
 plt.figure(1, figsize=(12, 5))
@@ -101,7 +107,7 @@ plt.title('Ensemble WMAE')
 plt.xlabel('Forecast index')
 plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
 plt.xlim([0, N])
-plt.savefig('pics\\simple-ensemble-wmae.png')
+plt.savefig('pics\\simple-ensemble-wmae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
 
 
@@ -117,32 +123,35 @@ def transform_forecast(fc, original_peak, target_peak, scale_vertical):
     t_src_nodes = [-1, p_start, np.round(original_peak[1]), p_end, T + 1]
     t_dst_nodes = [-1, p_start, np.round(target_peak[1]), p_end, T + 1]
     # multiplication scale
-    # scale = np.full(fc.shape, 1)
-    # mult = target_peak[0] / original_peak[0]
-    # if scale_vertical:
-    #     for t_fc in range(T + 1):
-    #         if t_fc == t_src_nodes[2]:
-    #             scale[t_fc] = mult
-    #         if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
-    #             scale[t_fc] = mult * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
-    #         if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
-    #             scale[t_fc] = mult * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
-    # l_res = fc * scale
+    if level_scale_mode == 0:
+        scale = np.full(fc.shape, 1)
+        mult = target_peak[0] / original_peak[0]
+        if scale_vertical:
+            for t_fc in range(T + 1):
+                if t_fc == t_src_nodes[2]:
+                    scale[t_fc] = mult
+                if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
+                    scale[t_fc] = mult * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
+                if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
+                    scale[t_fc] = mult * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
+        l_res = fc * scale
     # additive scale
-    # scale = np.full(fc.shape, 0)
-    # add = target_peak[0] - original_peak[0]
-    # if scale_vertical:
-    #     for t_fc in range(T + 1):
-    #         if t_fc == t_src_nodes[2]:
-    #             scale[t_fc] = add
-    #         if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
-    #             scale[t_fc] = add * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
-    #         if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
-    #             scale[t_fc] = add * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
-    # l_res = fc + scale
+    if level_scale_mode == 1:
+        scale = np.full(fc.shape, 0)
+        add = target_peak[0] - original_peak[0]
+        if scale_vertical:
+            for t_fc in range(T + 1):
+                if t_fc == t_src_nodes[2]:
+                    scale[t_fc] = add
+                if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
+                    scale[t_fc] = add * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
+                if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
+                    scale[t_fc] = add * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
+        l_res = fc + scale
     # additive all scale
-    scale = target_peak[0] - original_peak[0]
-    l_res = fc + scale
+    if level_scale_mode == 2:
+        scale = target_peak[0] - original_peak[0]
+        l_res = fc + scale
 
 
 
@@ -173,8 +182,12 @@ p_flt = p[mask]
 t_idx = np.arange(0, 61)
 colors = ('b', 'g', 'r')
 peak_l = [pLevel, pLevel, pLevel]
+dir_name = 'pics\\all-forecasts-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3)
+if not os.path.exists(dir_name):
+    os.makedirs(dir_name)
 for i in range(len(p_flt)):
-    # plt.figure(i, figsize=(12, 9))
+    print 'FC #' + str(i)
+    plt.figure(i, figsize=(12, 9))
     params = []
     res_params = pc[:, 3].flatten()
     for src_i in range(3):
@@ -182,21 +195,21 @@ for i in range(len(p_flt)):
         p2 = [p1[1], p1[0], p1[2] + p1[3], p1[2] / (p1[2] + p1[3])]
         params += [p2]
         res_params = res_params + np.array(p2) * pc[:, src_i].flatten()
-        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
-    # plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
+        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
+    plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
     peak_t = [res_params[1] - res_params[2] * res_params[3], res_params[1], res_params[1] + res_params[2] * (1.0 - res_params[3])]
     peak_l[1] = res_params[0]
-    # plt.plot(peak_t, peak_l, '^', markersize=10)
-    # plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-')
+    plt.plot(peak_t, peak_l, '^', markersize=10)
+    plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-')
     e_fc = np.full(T + 1, c[3])
     for src_i in range(3):
-        src_set[src_i][p_flt[i, 0]] = transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i], res_params, True)
-        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
+        src_set[src_i][p_flt[i, 0]] = transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i], res_params, level_scale_flag)
+        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
         e_fc += src_set[src_i][p_flt[i, 0]] * c[src_i]
-    # plt.plot(t_idx, e_fc, 'k--')
-    # plt.xlim([0, T])
-    # plt.savefig('pics\\all-forecasts-lat-scale\\forecast-' + str(i).zfill(3) + '.png')
-    # plt.close()
+    plt.plot(t_idx, e_fc, 'k--')
+    plt.xlim([0, T])
+    plt.savefig(dir_name + '\\forecast-' + str(i).zfill(3) + '.png')
+    plt.close()
 
 
 c = lse_coeff(src_set, 0, N - 1, w)
@@ -212,7 +225,7 @@ plt.title('Simple ensemble MAE')
 plt.xlabel('Forecast index')
 plt.ylabel('Forecast MAE, cm')
 plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-mae.png')
+plt.savefig('pics\\ensemble-1-mae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
 
 plt.figure(1, figsize=(12, 5))
@@ -222,7 +235,7 @@ plt.title('Ensemble WMAE')
 plt.xlabel('Forecast index')
 plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
 plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-wmae.png')
+plt.savefig('pics\\ensemble-1-wmae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
 
 plt.figure(1, figsize=(12, 5))
@@ -234,7 +247,7 @@ plt.legend(['Ensemble def', 'Ensemble #1'])
 plt.xlabel('Forecast index')
 plt.ylabel('Peak time error, h')
 plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-pet.png')
+plt.savefig('pics\\ensemble-1-pet-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
 
 plt.figure(1, figsize=(12, 5))
@@ -244,7 +257,7 @@ plt.legend(['Ensemble def', 'Ensemble #1'])
 plt.xlabel('Forecast index')
 plt.ylabel('Peak level error, cm')
 plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-pel.png')
+plt.savefig('pics\\ensemble-1-pel-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
 
 plt.figure(1, figsize=(8, 6))
@@ -266,7 +279,7 @@ plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
 plt.legend(['Ensemble def', 'Ensemble #1'])
 plt.xlabel('Peak level error, cm')
 plt.ylabel('PDF')
-plt.savefig('pics\\ensemble-1-pel-pdf.png')
+plt.savefig('pics\\ensemble-1-pel-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
 
 plt.figure(1, figsize=(8, 6))
@@ -292,5 +305,5 @@ plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
 plt.legend(['Ensemble def', 'Ensemble #1'])
 plt.xlabel('Peak time error, h')
 plt.ylabel('PDF')
-plt.savefig('pics\\ensemble-1-pet-pdf.png')
+plt.savefig('pics\\ensemble-1-pet-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
