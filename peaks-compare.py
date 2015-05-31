@@ -35,6 +35,16 @@ def create_w_mask(w_len, w_k):
                 w_res[t_i, t_j] = mt.exp(w_k*(t_i*6+t_j-(w_len-1)*6))
     return w_res
 
+def create_w_mask_from_level(w_len, w_scale):
+    w_res = np.zeros((w_len, T))
+    for t_i in range(w_len):
+        for t_j in range(T):
+            if t_i*6+t_j >= (w_len - 1)*6:
+                w_res[t_i, t_j] = 0
+            else:
+                w_res[t_i, t_j] = mt.exp(m_fc[t_i, t_j] * w_scale)
+    return w_res
+
 
 def lse_coeff(fcs, start_index, stop_index, w):
     a = np.zeros((len(fcs) + 1, len(fcs) + 1))
@@ -75,13 +85,14 @@ def forecast_error(fc):
     return mae
 
 
-pLevel = 80
-level_scale_mode = 1 # 0 - mult, 1 - add, 2 - add-all
-level_scale_flag = False
+pLevel = 60
+level_scale_mode = 1 # 0 - mult, 1 - add-peak, 2 - add-all
+level_scale_flag = True
 level_scale_flag_string = ''
 if level_scale_flag:
     level_scale_flag_string = 'l' + str(level_scale_mode)
-w = create_w_mask(N, 0)
+# w = create_w_mask(N, 0)
+w = create_w_mask_from_level(N, 0.05)
 src_set = (s1, s2, s3)
 c = lse_coeff(src_set, 0, N - 1, w)
 print(c)
