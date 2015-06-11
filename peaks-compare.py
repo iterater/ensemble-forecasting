@@ -18,6 +18,7 @@ print(np.shape(m))
 N = 281
 T = 60
 
+
 m_fc = np.zeros((N, T+1))
 for i in range(N):
     for j in range(T+1):
