@@ -88,7 +88,7 @@ def forecast_error(fc):
 
 pLevel = 60
 level_scale_mode = 1 # 0 - mult, 1 - add-peak, 2 - add-all
-level_scale_flag = True
+level_scale_flag = False
 level_scale_flag_string = ''
 if level_scale_flag:
     level_scale_flag_string = 'l' + str(level_scale_mode)
@@ -164,9 +164,6 @@ def transform_forecast(fc, original_peak, target_peak, scale_vertical):
     if level_scale_mode == 2:
         scale = target_peak[0] - original_peak[0]
         l_res = fc + scale
-
-
-
     l_res = np.concatenate(([l_res[0]], l_res, [l_res[-1]]))
     t_res = np.array([])
     for node_i in range(4):
