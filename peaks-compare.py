@@ -86,14 +86,14 @@ def forecast_error(fc):
     return mae
 
 
-pLevel = 60
+pLevel = 80
 level_scale_mode = 1 # 0 - mult, 1 - add-peak, 2 - add-all
 level_scale_flag = False
 level_scale_flag_string = ''
 if level_scale_flag:
     level_scale_flag_string = 'l' + str(level_scale_mode)
-# w = create_w_mask(N, 0)
-w = create_w_mask_from_level(N, 0.05)
+w = create_w_mask(N, 0)
+# w = create_w_mask_from_level(N, 0.05)
 src_set = (s1, s2, s3)
 c = lse_coeff(src_set, 0, N - 1, w)
 print(c)
@@ -121,6 +121,26 @@ plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
 plt.xlim([0, N])
 plt.savefig('pics\\simple-ensemble-wmae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
 plt.close()
+
+
+def scale_peak_vertically(fc, target_peak):
+    p_start = np.round(target_peak[1] - target_peak[2] * target_peak[3])
+    p_start = max(p_start, 0)
+    p_end = np.round(target_peak[1] + target_peak[2] * (1.0 - target_peak[3]))
+    p_end = min(p_end, T)
+    p_pos = np.round(target_peak[1])
+    scale = np.full(fc.shape, 0)
+    add = target_peak[0] - fc[p_pos]
+    for t_fc in range(T + 1):
+        if t_fc == p_pos:
+            scale[t_fc] = add
+        if (t_fc > p_start) and (t_fc < p_pos):
+            scale[t_fc] = add * (t_fc - p_start) / (p_pos - p_start)
+        if (t_fc > p_pos) and (t_fc < p_end):
+            scale[t_fc] = add * (p_end - t_fc) / (p_end - p_pos)
+    l_res = fc + scale
+    return l_res
+
 
 
 def transform_forecast(fc, original_peak, target_peak, scale_vertical):
@@ -194,6 +214,7 @@ peak_l = [pLevel, pLevel, pLevel]
 dir_name = 'pics\\all-forecasts-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3)
 if not os.path.exists(dir_name):
     os.makedirs(dir_name)
+res_params_array = []
 for i in range(len(p_flt)):
     print 'FC #' + str(i)
     plt.figure(i, figsize=(12, 9))
@@ -216,15 +237,22 @@ for i in range(len(p_flt)):
         plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
         e_fc += src_set[src_i][p_flt[i, 0]] * c[src_i]
     plt.plot(t_idx, e_fc, 'k--')
+    e_fc_v = scale_peak_vertically(e_fc, res_params)
+    res_params_array = np.concatenate((res_params_array, res_params))
+    plt.plot(t_idx, e_fc_v, 'k:')
     plt.xlim([0, T])
     plt.savefig(dir_name + '\\forecast-' + str(i).zfill(3) + '.png')
     plt.close()
-
+res_params_array = res_params_array.reshape((len(p_flt), 4))
 
 c = lse_coeff(src_set, 0, N - 1, w)
 fc_1 = np.full((N, T + 1), c[3])
 for src_i in range(3):
     fc_1 += src_set[src_i] * c[src_i]
+# peak tuning
+for i in range(len(p_flt)):
+    print("Forcing FC", p_flt[i, 0])
+    fc_1[p_flt[i, 0]] = scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i])
 indexRange = np.arange(N)
 
 plt.figure(1, figsize=(12, 5))
