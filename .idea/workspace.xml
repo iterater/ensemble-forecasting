@@ -2,224 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0b159345-020c-4c15-acbf-bf4c6c9e8172" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-mae-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-mae-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-mae-t-scale-pl080.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-mae-t-scale-pl080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pel-pdf-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pel-pdf-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pel-pdf-t-scale-pl080.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pel-pdf-t-scale-pl080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pel-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pel-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pel-t-scale-pl080.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pel-t-scale-pl080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pet-pdf-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pet-pdf-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pet-pdf-t-scale-pl080.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pet-pdf-t-scale-pl080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pet-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pet-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pet-t-scale-pl080.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pet-t-scale-pl080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-wmae-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-wmae-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-wmae-t-scale-pl080.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-wmae-t-scale-pl080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-000.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-000.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-000.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-000.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-001.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-001.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-001.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-001.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-002.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-002.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-002.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-002.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-003.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-003.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-003.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-003.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-004.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-004.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-004.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-004.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-005.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-005.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-005.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-005.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-006.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-006.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-006.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-006.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-007.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-007.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-007.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-007.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-008.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-008.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-008.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-008.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-009.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-009.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-009.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-009.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-010.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-010.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-010.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-010.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-011.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-011.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-011.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-011.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-012.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-012.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-012.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-012.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-013.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-013.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-013.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-013.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-014.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-014.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-014.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-014.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-015.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-015.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-015.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-015.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-016.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-016.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-016.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-016.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-017.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-017.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-017.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-017.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-018.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-018.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-018.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-018.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-019.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-019.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-019.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-019.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-020.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-020.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-020.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-020.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-021.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-021.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-021.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-021.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-022.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-022.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-022.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-022.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-023.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-023.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-023.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-023.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-024.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-024.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-024.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-024.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-025.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-025.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-025.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-025.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-026.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-026.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-026.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-026.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-027.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-027.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-027.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-027.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-028.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-028.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-028.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-028.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-029.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-029.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-029.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-029.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-030.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-030.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-030.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-030.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-031.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-031.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-031.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-031.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-032.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-032.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-032.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-032.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-033.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-033.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-033.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-033.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-034.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-034.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-034.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-034.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-035.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-035.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-035.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-035.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-036.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-036.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-036.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-036.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-037.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-037.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-037.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-037.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-038.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-038.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-038.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-038.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-039.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-039.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-039.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-039.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-040.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-040.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-040.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-040.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-041.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-041.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-041.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-041.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-042.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-042.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-042.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-042.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-043.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-043.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-043.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-043.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-044.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-044.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-044.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-044.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-045.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-045.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-045.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-045.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-046.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-046.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-046.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-046.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-047.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-047.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-047.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-047.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-048.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-048.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-048.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-048.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-049.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-049.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-049.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-049.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-050.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-050.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-050.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-050.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-051.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-051.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-051.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-051.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-052.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-052.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-052.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-052.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-053.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-053.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-053.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-053.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-054.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-054.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-054.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-054.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-055.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-055.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-055.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-055.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-056.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-056.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-056.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-056.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-057.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-057.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-057.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-057.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-058.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-058.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-058.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-058.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-059.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-059.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-059.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-059.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-060.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-060.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-061.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-061.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-061.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-061.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-062.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-062.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-062.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-062.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-063.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-063.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-063.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-063.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-064.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-064.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-064.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-064.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-065.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-065.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-065.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-065.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-066.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-066.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-066.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-066.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-067.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-067.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-067.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-067.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-068.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-068.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-068.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-068.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-069.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-069.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-069.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-069.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-070.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-070.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-070.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-070.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-071.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-071.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-071.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-071.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-072.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-072.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-072.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-072.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-073.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-073.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-073.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-073.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-074.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-074.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-074.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-074.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-075.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-075.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-075.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-075.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-076.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-076.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-076.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-076.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-077.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-077.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-077.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-077.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-078.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-078.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-078.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-078.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-079.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-079.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-079.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-079.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-080.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-080.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-080.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-081.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-081.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-081.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-081.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-082.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-082.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-082.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl080/forecast-082.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-083.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-083.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-084.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-084.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-085.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-085.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-086.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-086.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-087.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-087.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-088.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-088.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-089.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-089.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-090.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-090.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-091.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-091.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-092.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-092.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-093.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-093.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-094.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-094.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-095.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-095.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-096.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-096.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-097.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-097.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-098.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-098.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-099.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-099.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-100.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-100.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-101.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-101.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-102.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-102.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-103.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-103.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-104.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-104.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-105.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-105.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-106.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-106.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-107.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-107.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-108.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-108.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-109.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-109.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-110.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-110.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-111.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-111.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-112.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-112.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-113.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-113.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-114.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-114.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-115.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-115.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-116.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-116.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-117.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-117.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-118.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-118.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-119.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-119.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-120.png" afterPath="$PROJECT_DIR$/pics/all-forecasts-t-scale-pl060/forecast-120.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO.txt" afterPath="$PROJECT_DIR$/TODO.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peaks-compare.py" afterPath="$PROJECT_DIR$/peaks-compare.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="py-test-2.iws" />
@@ -257,7 +39,7 @@
       <file leaf-file-name="peaks-compare.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/peaks-compare.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62157536" vertical-offset="4465" max-vertical-offset="5865">
+            <state vertical-scroll-proportion="0.6226415" vertical-offset="4465" max-vertical-offset="5865">
               <caret line="290" column="38" selection-start-line="290" selection-start-column="38" selection-end-line="290" selection-end-column="38" />
               <folding />
             </state>
@@ -577,27 +359,33 @@
       <option name="project" value="LOCAL" />
       <updated>1434020066976</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Testing level scale after ensemble. Negative.">
+      <created>1435329811153</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1435329811153</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1688" height="1014" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15611814" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27566963" sideWeight="0.50030136" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27616927" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27566963" sideWeight="0.4996986" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15611814" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -622,7 +410,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Testing PyCharm commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing PyCharm commit" />
+    <MESSAGE value="Testing level scale after ensemble. Negative." />
+    <option name="LAST_COMMIT_MESSAGE" value="Testing level scale after ensemble. Negative." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -948,7 +737,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/peaks-compare.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62157536" vertical-offset="4465" max-vertical-offset="5865">
+        <state vertical-scroll-proportion="0.6226415" vertical-offset="4465" max-vertical-offset="5865">
           <caret line="290" column="38" selection-start-line="290" selection-start-column="38" selection-end-line="290" selection-end-column="38" />
           <folding />
         </state>
