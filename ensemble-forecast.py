@@ -35,19 +35,6 @@ plt.savefig('sources-mae.png')
 plt.close()
 
 
-def create_w_mask(w_len, w_k):
-    w_res = np.zeros((w_len, T))
-    for t_i in range(w_len):
-        for t_j in range(T):
-            if t_i*6+t_j >= (w_len - 1)*6:
-                w_res[t_i, t_j] = 0
-            else:
-                w_res[t_i, t_j] = mt.exp(w_k*(t_i*6+t_j-(w_len-1)*6))
-    return w_res
-
-
-
-
 def run_test_forecast(fcs, fc_index, window, w):
     c = lse_coeff(fcs, fc_index-window, fc_index, w)
     t_fc = np.full((1, T+1), c[len(fcs)])
