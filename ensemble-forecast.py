@@ -3,21 +3,19 @@ import scipy.optimize as opt
 import matplotlib.pyplot as plt
 import math as mt
 
-h = np.loadtxt('D:/Data/Ensemble_forecast/1/2011080100_hiromb_GI_60x434.txt') - 37.356
-s = np.loadtxt('D:/Data/Ensemble_forecast/1/2011080100_swan_GI_48x434.txt')
-n = np.loadtxt('D:/Data/Ensemble_forecast/1/2011080100_noswan_GI_48x434.txt')
-m = np.loadtxt('D:/Data/Ensemble_forecast/1/2011080100_measurements_GI_2623.txt')
-print(np.shape(h))
-print(np.shape(m))
+h = np.loadtxt('data/2011/2011080100_hiromb_GI_60x434.txt') - 37.356
+s = np.loadtxt('data/2011/2011080100_swan_GI_48x434.txt')
+n = np.loadtxt('data/2011/2011080100_noswan_GI_48x434.txt')
+m = np.loadtxt('data/2011/2011080100_measurements_GI_2623.txt')
 
 N = 430
 T = 48
 
+# preparing measurements forecast
 m_fc = np.zeros((N, T+1))
 for i in range(N):
     for j in range(T+1):
         m_fc[i, j] = m[i*6+j]
-print(np.shape(m_fc))
 
 
 def forecastError(fc):
@@ -48,18 +46,6 @@ def create_w_mask(w_len, w_k):
     return w_res
 
 
-def lse_coeff(fcs, start_index, stop_index, w):
-    a = np.zeros((len(fcs) + 1, len(fcs) + 1))
-    b = np.zeros(len(fcs) + 1)
-    for i in range(len(fcs)):
-        b[i] = np.sum(w*fcs[i][start_index:stop_index+1, 1:T+1]*m_fc[start_index:stop_index+1, 1:T+1])
-        a[len(fcs), i] = np.sum(w*fcs[i][start_index:stop_index+1, 1:T+1])
-        a[i, len(fcs)] = a[len(fcs), i]
-        for j in range(len(fcs)):
-            a[i, j] = np.sum(w*fcs[i][start_index:stop_index+1, 1:T+1]*fcs[j][start_index:stop_index+1, 1:T+1])
-    b[len(fcs)] = np.sum(w*m_fc[start_index:stop_index+1, 1:T+1])
-    a[len(fcs), len(fcs)] = np.sum(w)
-    return np.linalg.solve(a, b)
 
 
 def run_test_forecast(fcs, fc_index, window, w):
