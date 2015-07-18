@@ -2,15 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0b159345-020c-4c15-acbf-bf4c6c9e8172" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-mae-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-mae-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pel-pdf-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pel-pdf-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pel-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pel-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pet-pdf-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pet-pdf-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-pet-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-pet-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pics/ensemble-1-wmae-t-scale-pl060.png" afterPath="$PROJECT_DIR$/pics/ensemble-1-wmae-t-scale-pl060.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/peaks-compare.py" afterPath="$PROJECT_DIR$/peaks-compare.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/py-test-2.iml" afterPath="$PROJECT_DIR$/.idea/py-test-2.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="py-test-2.iws" />
@@ -45,7 +36,7 @@
       <file leaf-file-name="peaks-compare.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/peaks-compare.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38772213">
+            <state vertical-scroll-proportion="0.0">
               <caret line="258" column="34" selection-start-line="258" selection-start-column="34" selection-end-line="258" selection-end-column="34" />
               <folding />
             </state>
@@ -104,6 +95,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -125,7 +117,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -372,33 +363,39 @@
       <option name="project" value="LOCAL" />
       <updated>1435329811153</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Comparing peak level after-processing. W/a after-preocessing is better..">
+      <created>1435352569802</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1435352569802</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15567282" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15567282" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3288889" sideWeight="0.50184697" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.49815303" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3288889" sideWeight="0.49604222" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27555555" sideWeight="0.4996986" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27555555" sideWeight="0.4996986" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -415,7 +412,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Testing PyCharm commit" />
     <MESSAGE value="Testing level scale after ensemble. Negative." />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing level scale after ensemble. Negative." />
+    <MESSAGE value="Comparing peak level after-processing. W/a after-preocessing is better.." />
+    <option name="LAST_COMMIT_MESSAGE" value="Comparing peak level after-processing. W/a after-preocessing is better.." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -477,6 +475,22 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/TODO.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/peaks-compare.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TODO.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -784,7 +798,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/peaks-compare.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38772213">
+        <state vertical-scroll-proportion="0.0">
           <caret line="258" column="34" selection-start-line="258" selection-start-column="34" selection-end-line="258" selection-end-column="34" />
           <folding />
         </state>
