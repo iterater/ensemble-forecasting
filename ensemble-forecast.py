@@ -35,16 +35,6 @@ plt.savefig('sources-mae.png')
 plt.close()
 
 
-def run_test_forecast(fcs, fc_index, window, w):
-    c = lse_coeff(fcs, fc_index-window, fc_index, w)
-    t_fc = np.full((1, T+1), c[len(fcs)])
-    for k in range(len(fcs)):
-        t_fc += fcs[k][t, 0:T+1] * c[k]
-    t_err = t_fc - m_fc[t]
-    res_err = 0.0
-    for fct in range(1, T+1):
-        res_err += abs(t_err[0, fct])/T
-    return res_err
 
 
 test_period_start = 150
