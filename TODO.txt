@@ -1,1 +1,5 @@
 - CHECK: forecast shifting (-avg, +const) influence onto LSE (and? others) ensemble quality
+- New distance
+- PCA on python implementation
+- Check PCA clustering
+
