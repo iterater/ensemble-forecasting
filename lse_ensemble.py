@@ -24,6 +24,16 @@ s = s[0:N, 1:T+1] + shift_const
 n = n[0:N, 1:T+1] + shift_const
 m_fc = m_fc[0:N, 1:T+1] + shift_const
 
+src_names = ['h', 's', 'n']
+fc_set_all = (h, s, n)
+
+def compute_and_save_errors(fcs, name, file_name):
+    err_mae = dist.forecast_dist_mae(fcs, m_fc - shift_const)
+    err_dtw = dist.forecast_dist_dtw(fcs, m_fc - shift_const)
+    err = np.vstack((err_mae, err_dtw)).transpose()
+    print(name, 'DTW', np.mean(err_dtw), 'MAE', np.mean(err_mae))
+    np.savetxt(file_name, err)
+
 
 def create_w_mask(n, t, k, skip_extended):
     """
@@ -65,9 +75,14 @@ def lse_coeff(fcs, m_fc, w):
     return np.linalg.solve(a, b)
 
 
-src_names = ['h', 's', 'n']
-w_combination = []
-fc_set_all = (h, s, n)
+# original errors
+for i in range(len(fc_set_all)):
+    compute_and_save_errors(fc_set_all[i] - shift_const, src_names[i],
+                            'data/2011/2011080100_original_'+src_names[i]+'_GI_'+str(T)+'x'+str(N)+'_err.txt')
+
+# building all ensembles
+ens_set = ()
+ens_names = ()
 for b_flag in range(1, 1 << len(fc_set_all)):
     fc_set = ()
     ens_name = ''
@@ -77,7 +92,24 @@ for b_flag in range(1, 1 << len(fc_set_all)):
             ens_name += src_names[q]
     current_coeff = lse_coeff(fc_set, m_fc, 1)
     e_fc = np.full(np.shape(fc_set[0]), current_coeff[len(fc_set)] - shift_const)
+    ens_set += (e_fc, )
+    ens_names += (ens_name, )
     for k in range(len(fc_set)):
         e_fc += fc_set[k] * current_coeff[k]
-    print(ens_name, current_coeff, 'ERR', np.mean(dist.forecast_dist_dtw(e_fc, m_fc - shift_const)))
+    print(ens_name, current_coeff)
+    compute_and_save_errors(e_fc, ens_name, 'data/2011/2011080100_ens_'+ens_name+'_GI_'+str(T)+'x'+str(N)+'_err.txt')
     np.savetxt('data/2011/2011080100_ens_'+ens_name+'_GI_'+str(T)+'x'+str(N)+'.txt', e_fc)
+
+dist_all_index = []
+dist_all_mae = []
+dist_all_dtw = []
+for i in range(len(ens_names)):
+    for j in range(i):
+        dist_all_dtw += [dist.forecast_dist_dtw(ens_set[i], ens_set[j]), ]
+        dist_all_mae += [dist.forecast_dist_mae(ens_set[i], ens_set[j]), ]
+        dist_all_index += [[i, j], ]
+np.savetxt('data/2011/2011080100_ens_dist_mae.txt', dist_all_mae)
+np.savetxt('data/2011/2011080100_ens_dist_dtw.txt', dist_all_dtw)
+np.savetxt('data/2011/2011080100_ens_dist_index.txt', dist_all_index, fmt='%i')
+with open('data/2011/2011080100_ens_dist_names.txt', 'w') as t_file:
+    t_file.write('\n'.join(ens_names))

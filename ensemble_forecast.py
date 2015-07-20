@@ -1,40 +1,47 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import forecast_dists as dist
-
-h = np.loadtxt('data/2011/2011080100_hiromb_GI_60x434.txt') - 37.356
-s = np.loadtxt('data/2011/2011080100_swan_GI_48x434.txt')
-n = np.loadtxt('data/2011/2011080100_noswan_GI_48x434.txt')
-m = np.loadtxt('data/2011/2011080100_measurements_GI_2623.txt')
+from sklearn import tree
 
 N = 430
 T = 48
 
 # preparing measurements forecast
-m_fc = np.zeros((N, T+1))
-for i in range(N):
-    for j in range(T+1):
-        m_fc[i, j] = m[i*6+j]
+m = np.loadtxt('data/2011/2011080100_measurements_GI_2623.txt')
 
-# data cut and shifting
-shift_const = 24
-h = h[0:N, 1:T+1] + shift_const
-s = s[0:N, 1:T+1] + shift_const
-n = n[0:N, 1:T+1] + shift_const
-m_fc = m_fc[0:N, 1:T+1] + shift_const
+# ensembles loading
+with open('data/2011/2011080100_ens_dist_names.txt') as t_file:
+    ens_names = t_file.read().split(sep='\n')
+ens_fc = ()
+ens_err = ()
+for i in range(len(ens_names)):
+    ens_fc += (np.loadtxt('data/2011/2011080100_ens_'+ens_names[i]+'_GI_48x430.txt'),)
+    ens_err += (np.loadtxt('data/2011/2011080100_ens_'+ens_names[i]+'_GI_48x430_err.txt'),)
+    print('Loaded', ens_names[i], np.shape(ens_fc[i]), np.shape(ens_err[i]))
+ens_dist_dtw = np.loadtxt('data/2011/2011080100_ens_dist_dtw.txt').transpose()
+ens_dist_mae = np.loadtxt('data/2011/2011080100_ens_dist_mae.txt').transpose()
+ens_dist_index = np.loadtxt('data/2011/2011080100_ens_dist_index.txt')
+ens_dist_index_matrix = np.full((len(ens_names), len(ens_names)), -1)
+for i in range(len(ens_dist_index)):
+    ens_dist_index_matrix[ens_dist_index[i, 0], ens_dist_index[i, 1]] = i
+    ens_dist_index_matrix[ens_dist_index[i, 1], ens_dist_index[i, 0]] = i
 
+# best ensemble classes
+best_class = []
+for t in range(N):
+    errs = list(map(lambda x: x[t, 1], ens_err))
+    best_class += [np.argmin(errs), ]
+best_class = np.array(best_class).astype(int)
+print(best_class)
 
-indexRange = np.arange(N)
-plt.figure(1, figsize=(12, 5))
-plt.plot(indexRange, dist.forecast_dist_dtw(h, m_fc),
-         indexRange, dist.forecast_dist_dtw(s, m_fc),
-         indexRange, dist.forecast_dist_dtw(n, m_fc))
-plt.legend(['Hiromb', 'Swan', 'No-Swan'])
-plt.title('Sources DTW')
-plt.xlabel('Forecast index')
-plt.ylabel('Forecast DTW, cm')
-plt.savefig('pics/2011/sources-dtw.png')
-plt.close()
-
-
-
+# classification try
+train_ratio = 0.6
+for i in range(10):
+    shuffled_index = np.arange(N)
+    np.random.shuffle(shuffled_index)
+    train_index = shuffled_index[0:int(train_ratio*N)]
+    test_index = shuffled_index[int(train_ratio*N):]
+    clf = tree.DecisionTreeClassifier()
+    clf = clf.fit(ens_dist_dtw[train_index], best_class[train_index])
+    prediction = clf.predict(ens_dist_dtw[test_index])
+    full_err = np.mean(ens_err[-1][test_index, 1])
+    predicted_error = np.mean([ens_err[prediction[j]][test_index[j], 1] for j in range(len(prediction))])
+    print('DIFF:', full_err - predicted_error)
