@@ -1,6 +1,7 @@
 # Prepare ensemble forecasts with simple LSE training
 import numpy as np
 import math as mt
+import forecast_dists as dist
 
 h = np.loadtxt('data/2011/2011080100_hiromb_GI_60x434.txt') - 37.356
 s = np.loadtxt('data/2011/2011080100_swan_GI_48x434.txt')
@@ -22,11 +23,6 @@ h = h[0:N, 1:T+1] + shift_const
 s = s[0:N, 1:T+1] + shift_const
 n = n[0:N, 1:T+1] + shift_const
 m_fc = m_fc[0:N, 1:T+1] + shift_const
-
-
-def forecast_dist(fc1, fc2):
-    fc_diff = np.absolute(fc1 - fc2)
-    return np.mean(fc_diff, axis=1)
 
 
 def create_w_mask(n, t, k, skip_extended):
@@ -83,5 +79,5 @@ for b_flag in range(1, 1 << len(fc_set_all)):
     e_fc = np.full(np.shape(fc_set[0]), current_coeff[len(fc_set)] - shift_const)
     for k in range(len(fc_set)):
         e_fc += fc_set[k] * current_coeff[k]
-    print(ens_name, current_coeff, 'ERR', np.mean(forecast_dist(e_fc, m_fc - shift_const)))
+    print(ens_name, current_coeff, 'ERR', np.mean(dist.forecast_dist_dtw(e_fc, m_fc - shift_const)))
     np.savetxt('data/2011/2011080100_ens_'+ens_name+'_GI_'+str(T)+'x'+str(N)+'.txt', e_fc)
