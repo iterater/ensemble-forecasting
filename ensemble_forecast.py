@@ -1,5 +1,7 @@
 import numpy as np
 from sklearn import tree
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
 
 N = 430
 T = 48
@@ -45,3 +47,16 @@ for i in range(10):
     full_err = np.mean(ens_err[-1][test_index, 1])
     predicted_error = np.mean([ens_err[prediction[j]][test_index[j], 1] for j in range(len(prediction))])
     print('DIFF:', full_err - predicted_error)
+
+# pca on distance vector
+pca = PCA(n_components=2)
+pca_res = pca.fit_transform(ens_dist_dtw)
+pca = PCA(n_components=2)
+pca_res = pca.fit_transform(ens_dist_dtw)
+colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+plt.xlabel('All-distance PC#1')
+plt.ylabel('All-distance PC#2')
+for i in range(7):
+    plt.plot(pca_res[best_class == i, 0], pca_res[best_class == i, 1], 'o'+colors[i])
+plt.savefig('pics\\2011\\all-distance-pca.png')
+plt.close()

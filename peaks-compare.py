@@ -216,7 +216,7 @@ if not os.path.exists(dir_name):
     os.makedirs(dir_name)
 res_params_array = []
 for i in range(len(p_flt)):
-    print 'FC #' + str(i)
+    print ('FC #' + str(i))
     plt.figure(i, figsize=(12, 9))
     params = []
     res_params = pc[:, 3].flatten()
