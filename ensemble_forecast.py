@@ -45,7 +45,7 @@ print(best_class)
 
 # error prediction
 train_ratio = 0.6
-history_view_window = 24
+history_view_window = 48
 available_start = int(np.ceil(history_view_window/6))
 for i in range(10):
     shuffled_index = np.arange(N - available_start) + available_start
@@ -54,11 +54,11 @@ for i in range(10):
     test_index = shuffled_index[int(train_ratio*N):]
     predicted_err = []
     for ens_i in range(len(ens_names)):
-        # ens_idx_selection = (ens_dist_index[:, 0].flatten() == ens_i) | (ens_dist_index[:, 1].flatten() == ens_i)
-        # train_arg = np.hstack((mh[train_index, 0:history_view_window], ens_dist_dtw[train_index][:, ens_idx_selection]))
-        # test_arg = np.hstack((mh[test_index, 0:history_view_window], ens_dist_dtw[test_index][:, ens_idx_selection]))
-        train_arg = mh[train_index, 0:history_view_window]
-        test_arg = mh[test_index, 0:history_view_window]
+        ens_idx_selection = (ens_dist_index[:, 0].flatten() == ens_i) | (ens_dist_index[:, 1].flatten() == ens_i)
+        train_arg = np.hstack((mh[train_index, 0:history_view_window], ens_dist_dtw[train_index][:, ens_idx_selection]))
+        test_arg = np.hstack((mh[test_index, 0:history_view_window], ens_dist_dtw[test_index][:, ens_idx_selection]))
+        # train_arg = mh[train_index, 0:history_view_window]
+        # test_arg = mh[test_index, 0:history_view_window]
         train_val = ens_err[ens_i][train_index, 1]
         regr = svm.SVR(kernel='rbf', C=1e6, gamma=0.3)
         regr.fit(train_arg, train_val)
