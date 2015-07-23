@@ -15,3 +15,7 @@ original_best_class = np.argmin(original_errors, axis=1)
 predicted_best_class = np.argmin(original_errors, axis=1)
 predicted_selected_error = [original_errors[i, predicted_best_class[i]] for i in range(len(predicted_best_class))]
 print(np.mean(original_errors[:, -1] - predicted_selected_error))
+
+# error on error estimation
+print("ESTIMATION MEAN:", np.mean(original_errors - predicted_errors, axis=0))
+print("ESTIMATION STD:", np.std(original_errors - predicted_errors, axis=0))
