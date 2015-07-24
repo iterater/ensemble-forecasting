@@ -8,15 +8,19 @@ T = 48
 
 # preparing measurements data
 m = np.loadtxt('data/2011/2011080100_measurements_GI_2623.txt')
+m_s1 = np.loadtxt('data/2011/2011080100_measurements_S1_2623.txt')
 MHT = 70  # maximum history length
 mh = np.zeros((N, MHT))
+mh_s1 = np.zeros((N, MHT))
 for i in range(N):
     for j in range(MHT):
         tt = i*6-j
         if tt < 0:
             mh[i, j] = np.nan
+            mh_s1[i, j] = np.nan
         else:
             mh[i, j] = m[tt]
+            mh_s1[i, j] = m_s1[tt]
 
 # ensembles loading
 with open('data/2011/2011080100_ens_dist_names.txt') as t_file:
@@ -55,12 +59,17 @@ for i in range(10):
     predicted_err = []
     for ens_i in range(len(ens_names)):
         ens_idx_selection = (ens_dist_index[:, 0].flatten() == ens_i) | (ens_dist_index[:, 1].flatten() == ens_i)
-        train_arg = np.hstack((mh[train_index, 0:history_view_window], ens_dist_dtw[train_index][:, ens_idx_selection]))
-        test_arg = np.hstack((mh[test_index, 0:history_view_window], ens_dist_dtw[test_index][:, ens_idx_selection]))
+        train_arg = np.hstack((mh[train_index, 0:history_view_window],
+                               mh_s1[train_index, 0:history_view_window],
+                               ens_dist_dtw[train_index][:, ens_idx_selection]))
+        test_arg = np.hstack((mh[test_index, 0:history_view_window],
+                              mh_s1[test_index, 0:history_view_window],
+                              ens_dist_dtw[test_index][:, ens_idx_selection]))
         # train_arg = mh[train_index, 0:history_view_window]
         # test_arg = mh[test_index, 0:history_view_window]
         train_val = ens_err[ens_i][train_index, 1]
-        regr = svm.SVR(kernel='rbf', C=1e6, gamma=0.3)
+        # regr = svm.SVR(kernel='rbf', gamma=0.3)
+        regr = svm.SVR()
         regr.fit(train_arg, train_val)
         predicted_err += [regr.predict(test_arg), ]
     predicted_err = np.array(predicted_err).transpose()
