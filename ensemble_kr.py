@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 n_start = 70
 n_stop = 429
@@ -39,10 +40,13 @@ print("ESTIMATION STD:", np.std(original_errors - predicted_errors, axis=0))
 pca = PCA(n_components=2)
 pca_res = pca.fit_transform(predicted_errors)
 plt.figure(10)
+# ax = fig.add_subplot(111, projection='3d')
 plt.xlabel('PC#1')
 plt.ylabel('PC#2')
-for i in range(7):
-    plt.plot(pca_res[predicted_best_class == i, 0], pca_res[predicted_best_class == i, 1], 'o'+colors[i])
-plt.savefig('pics\\2011\\predicted-errors-pca.png')
-plt.close()
+correct_flag = original_best_class == predicted_best_class
+plt.plot(pca_res[correct_flag, 0], pca_res[correct_flag, 1], 'og')
+plt.plot(pca_res[~correct_flag, 0], pca_res[~correct_flag, 1], 'or')
+plt.show()
+# plt.savefig('pics\\2011\\predicted-errors-pca.png')
+# plt.close()
 
