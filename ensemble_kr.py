@@ -1,4 +1,6 @@
 import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
 
 n_start = 70
 n_stop = 429
@@ -19,3 +21,14 @@ print(np.mean(original_errors[:, -1] - predicted_selected_error))
 # error on error estimation
 print("ESTIMATION MEAN:", np.mean(original_errors - predicted_errors, axis=0))
 print("ESTIMATION STD:", np.std(original_errors - predicted_errors, axis=0))
+
+# pca on distance vector
+pca = PCA(n_components=2)
+pca_res = pca.fit_transform(predicted_errors)
+colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
+plt.xlabel('PC#1')
+plt.ylabel('PC#2')
+for i in range(7):
+    plt.plot(pca_res[predicted_best_class == i, 0], pca_res[predicted_best_class == i, 1], 'o'+colors[i])
+plt.savefig('pics\\2011\\predicted-errors-pca.png')
+plt.close()
