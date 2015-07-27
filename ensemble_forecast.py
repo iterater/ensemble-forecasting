@@ -1,10 +1,12 @@
 import numpy as np
 from sklearn import svm
 from sklearn.decomposition import PCA
+from scipy.stats import gaussian_kde
 import matplotlib.pyplot as plt
 
 N = 430
 T = 48
+colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 
 # preparing measurements data
 m = np.loadtxt('data/2011/2011080100_measurements_GI_2623.txt')
@@ -21,6 +23,13 @@ for i in range(N):
         else:
             mh[i, j] = m[tt]
             mh_s1[i, j] = m_s1[tt]
+
+# preparing measurements forecast
+m_fc = np.zeros((N, T+1))
+for i in range(N):
+    for j in range(T+1):
+        m_fc[i, j] = m[i*6+j]
+m_fc = m_fc[0:N, 1:T+1]
 
 # ensembles loading
 with open('data/2011/2011080100_ens_dist_names.txt') as t_file:
@@ -46,6 +55,35 @@ for t in range(N):
     best_class += [np.argmin(errs), ]
 best_class = np.array(best_class).astype(int)
 print(best_class)
+
+# error pdf
+# for i in range(len(ens_names)):
+#     plt.figure(i)
+#     err0 = np.array(np.abs(ens_fc[i][:, 0] - m_fc[:, 0])).flatten()
+#     x = np.linspace(min(err0), max(err0), 100)
+#     gkde = gaussian_kde(err0[best_class == i])
+#     pdfTrue = gkde(x)
+#     gkde = gaussian_kde(err0[best_class != i])
+#     pdfFalse = gkde(x)
+#     plt.xlim((min(err0), max(err0)))
+#     plt.plot(x, pdfTrue)
+#     plt.plot(x, pdfFalse)
+#     plt.xlabel('MAE(t=0), cm')
+#     plt.ylabel('PDF')
+#     plt.legend(['Best is '+ens_names[i], 'Best is not '+ens_names[i]])
+#     plt.savefig('pics\\2011\\best-not-best-'+str(i).zfill(2)+'.png')
+#     plt.close()
+
+# error dtw vs mae
+plt.figure(44)
+plt.xlabel('MAE, cm')
+plt.ylabel('DTW, cm')
+for i in range(len(ens_names)):
+    plt.plot(ens_err[i][:, 0], ens_err[i][:, 1], colors[i]+'o')
+plt.legend(ens_names)
+plt.savefig('pics\\2011\\mae-vs-dtw.png')
+plt.close()
+
 
 # error prediction
 train_ratio = 0.6
@@ -96,7 +134,6 @@ for i in range(10):
 # pca on distance vector
 # pca = PCA(n_components=2)
 # pca_res = pca.fit_transform(ens_dist_dtw)
-# colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 # plt.xlabel('All-distance PC#1')
 # plt.ylabel('All-distance PC#2')
 # for i in range(7):
