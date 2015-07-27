@@ -85,23 +85,23 @@ print(best_class)
 # plt.close()
 
 # autocorrelation
-ac = []
-max_dt = 60
-for dt in range(max_dt + 1):
-    t_ac = []
-    for i in range(len(ens_names)):
-        x = ens_err[i][0:N-dt, 1]
-        y = ens_err[i][dt:N, 1]
-        cc = np.corrcoef(x, y)
-        t_ac += [cc[0, 1], ]
-    ac += [t_ac, ]
-plt.figure(44)
-plt.xlabel('Time shift, h')
-plt.ylabel('Correlation')
-plt.plot(ac)
-plt.legend(ens_names)
-plt.savefig('pics\\2011\\ac-dtw.png')
-plt.close()
+# ac = []
+# max_dt = 60
+# for dt in range(max_dt + 1):
+#     t_ac = []
+#     for i in range(len(ens_names)):
+#         x = ens_err[i][0:N-dt, 1]
+#         y = ens_err[i][dt:N, 1]
+#         cc = np.corrcoef(x, y)
+#         t_ac += [cc[0, 1], ]
+#     ac += [t_ac, ]
+# plt.figure(44)
+# plt.xlabel('Time shift, h')
+# plt.ylabel('Correlation')
+# plt.plot(ac)
+# plt.legend(ens_names)
+# plt.savefig('pics\\2011\\ac-dtw.png')
+# plt.close()
 
 
 
