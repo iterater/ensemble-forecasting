@@ -1,10 +1,12 @@
 import numpy as np
 from sklearn import svm
 from sklearn.decomposition import PCA
+from scipy.stats import gaussian_kde
 import matplotlib.pyplot as plt
 
 N = 430
 T = 48
+colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 
 # preparing measurements data
 m = np.loadtxt('data/2011/2011080100_measurements_GI_2623.txt')
@@ -60,11 +62,30 @@ def select_by_mae_prob(test_err, err_set, de, max_e):
         return p_err[-1]
     return p_err[t_idx]
 
+# selection definition time
+# selection = np.loadtxt('data\\2011\\bayesian_selection.txt')
+# t_selection = np.zeros(N)
+# for k in range(N):
+#     for t in range(len(selection[k])):
+#         if selection[k, t_selection[k]] != selection[k, t]:
+#             t_selection[k] = t
+# plt.figure(i)
+# x = np.linspace(0, 48, 500)
+# for i in range(len(ens_names)):
+#     gkde = gaussian_kde(t_selection[best_class == i])
+#     pdf = gkde(x)
+#     plt.plot(x, pdf, colors[i])
+# plt.xlim((0, 48))
+# plt.xlabel('Final selection time, h')
+# plt.ylabel('PDF')
+# plt.legend(ens_names)
+# plt.savefig('pics\\2011\\bayesian-selection-time.png')
+# plt.close()
 
 apriori_prob = [sum(best_class == i) / N for i in range(len(ens_names))]
 print(apriori_prob)
+selection = []
 for k in range(N):
-    plt.figure(k)
     p = apriori_prob
     print(k, ens_names[best_class[k]])
     res = [p, ]
@@ -80,6 +101,9 @@ for k in range(N):
         norm = sum(p)
         res += [p / norm, ]
     # print(res)
+    selection += [np.array(np.argmax(res, axis=1)).flatten(), ]
+    # plotting
+    plt.figure(k)
     plt.text(1, 0.9, 'Best: '+ens_names[best_class[k]])
     plt.plot(res)
     plt.legend(ens_names)
@@ -87,3 +111,4 @@ for k in range(N):
     plt.ylabel('Best guess probability')
     plt.savefig('pics\\2011\\bayesian_test\\fc'+str(k).zfill(3)+'.png')
     plt.close()
+np.savetxt('data\\2011\\bayesian_selection.txt', selection)
