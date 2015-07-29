@@ -21,6 +21,18 @@ print(np.mean(original_errors[:, -1] - predicted_selected_error))
 
 colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 
+# original-selected DTW error
+full_err = original_errors[:, -1]
+selected_error = [original_errors[i, predicted_best_class[i]] for i in range(len(predicted_best_class))]
+plt.xlabel('Original DTW error, cm')
+plt.ylabel('Selected ensemble DTW error, cm')
+plt.xlim((0, 9))
+plt.ylim((0, 9))
+plt.plot([-1, 10], [-1, 10], 'k')
+plt.plot(original_errors[:, -1], selected_error, 'o')
+plt.savefig('pics\\2011\\selected-vs-original-errors.png')
+plt.close()
+
 # original-predicted DTW biplot
 plt.xlabel('Original DTW error, cm')
 plt.ylabel('Predicted DTW error, cm')
