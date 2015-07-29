@@ -86,7 +86,7 @@ def forecast_error(fc):
     return mae
 
 
-pLevel = 60
+pLevel = 80
 level_scale_mode = 1 # 0 - mult, 1 - add-peak, 2 - add-all
 level_scale_flag = False
 level_scale_flag_string = ''
@@ -208,6 +208,13 @@ mask = ~np.isnan(p[:, 0])
 for i in range(13):
     mask &= ~np.isnan(p[:, i])
 p_flt = p[mask]
+
+# removing bad peaks
+bad_list = [19, 21, 23, 25, 35, 40, 41, 42, 43, 46, 48, 73, 74]  # for 80 cm
+good_mask = np.ones(len(p_flt), dtype=bool)
+good_mask[bad_list] = 0
+p_flt = p_flt[good_mask]
+
 t_idx = np.arange(0, 61)
 colors = ('b', 'g', 'r')
 peak_l = [pLevel, pLevel, pLevel]
@@ -217,7 +224,7 @@ if not os.path.exists(dir_name):
 res_params_array = []
 for i in range(len(p_flt)):
     print ('FC #' + str(i))
-    plt.figure(i, figsize=(12, 9))
+    plt.figure(i, figsize=(7, 5))
     params = []
     res_params = pc[:, 3].flatten()
     for src_i in range(3):
@@ -241,6 +248,8 @@ for i in range(len(p_flt)):
     res_params_array = np.concatenate((res_params_array, res_params))
     plt.plot(t_idx, e_fc_v, 'k:')
     plt.xlim([0, T])
+    plt.xlabel('Forecast time, h')
+    plt.ylabel('Level, cm')
     plt.savefig(dir_name + '\\forecast-' + str(i).zfill(3) + '.png')
     plt.close()
 res_params_array = res_params_array.reshape((len(p_flt), 4))
