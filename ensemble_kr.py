@@ -24,6 +24,7 @@ colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 # original-selected DTW error
 full_err = original_errors[:, -1]
 selected_error = [original_errors[i, predicted_best_class[i]] for i in range(len(predicted_best_class))]
+plt.figure(1, figsize=(6, 6))
 plt.xlabel('Original DTW error, cm')
 plt.ylabel('Selected ensemble DTW error, cm')
 plt.xlim((0, 9))
