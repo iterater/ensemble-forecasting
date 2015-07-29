@@ -1,1 +1,3 @@
-Train without bad forecasts
+- Train without bad forecasts
+- Shift towards best forecast
+- Check regression errors
