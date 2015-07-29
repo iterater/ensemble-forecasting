@@ -272,13 +272,15 @@ def plot_stats(pLevel):
     # plt.show()
 
 
-def regr_coeff(x, y):
+def regr_coeff(x, y, bad_list):
     N = x.shape[1]
     mask = ~np.isnan(y)
     for i in range(N):
         mask &= ~np.isnan(x[:, i])
-    x_flt = x[mask]
-    y_flt = y[mask]
+    good_mask = np.ones(sum(mask), dtype=bool)
+    good_mask[bad_list] = 0
+    x_flt = x[mask][good_mask]
+    y_flt = y[mask][good_mask]
     a = np.zeros((N + 1, N + 1))
     b = np.zeros(N + 1)
     for i in range(N):
@@ -293,6 +295,10 @@ def regr_coeff(x, y):
 
 
 def regr_coeff_all(pLevel):
+    if pLevel == 80:
+        bad_list = [19, 21, 23, 25, 35, 40, 41, 42, 43, 46, 48, 73, 74]  # for 80 cm
+    else:
+        bad_list = []
     p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
     p1 = np.zeros(p.shape)
     for i in range(4):
@@ -308,7 +314,7 @@ def regr_coeff_all(pLevel):
     for p_idx in range(p_cnt):
         src_data = p1[:, (1 + p_idx):(1 + p_cnt * s_cnt):p_cnt]
         m_data = p1[:, 1 + p_idx + p_cnt * s_cnt]
-        res_coeff += [regr_coeff(src_data, m_data)]
+        res_coeff += [regr_coeff(src_data, m_data, bad_list)]
     return np.array(res_coeff)
 
 

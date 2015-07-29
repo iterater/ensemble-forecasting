@@ -259,9 +259,9 @@ fc_1 = np.full((N, T + 1), c[3])
 for src_i in range(3):
     fc_1 += src_set[src_i] * c[src_i]
 # peak tuning
-# for i in range(len(p_flt)):
-#     print("Forcing FC", p_flt[i, 0])
-#     fc_1[p_flt[i, 0]] = scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i])
+for i in range(len(p_flt)):
+    print("Forcing FC", p_flt[i, 0])
+    fc_1[p_flt[i, 0]] = scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i])
 indexRange = np.arange(N)
 
 plt.figure(1, figsize=(12, 5))
