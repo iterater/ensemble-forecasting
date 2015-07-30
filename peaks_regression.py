@@ -5,7 +5,7 @@ import math as m
 
 
 def print_errors(e_arr, name):
-    print(name, 'BIAS:', np.mean(e_arr), 'MAE:', np.mean(np.abs(e_arr)))
+    print(name, 'BIAS:', np.mean(e_arr), 'MAE:', np.mean(np.abs(e_arr)), 'STDEV:', np.std(e_arr))
 
 def regr_coeff(x, y, bad_list):
     N = x.shape[1]
@@ -17,7 +17,7 @@ def regr_coeff(x, y, bad_list):
     x_flt = x[mask][good_mask]
     y_flt = y[mask][good_mask]
     for i in range(N):
-        print('MAE(SRC'+str(i)+'):', np.mean(np.abs(y_flt - x_flt[:, i])))
+        print_errors(y_flt - x_flt[:, i], str(i))
     a = np.zeros((N + 1, N + 1))
     b = np.zeros(N + 1)
     for i in range(N):
@@ -32,7 +32,7 @@ def regr_coeff(x, y, bad_list):
     test = np.full(len(y_flt), c[-1])
     for i in range(N):
         test += c[i]*x_flt[:, i]
-    print('MAE(ENS):', np.mean(np.abs(y_flt - test)))
+    print_errors(y_flt - test, 'ENS')
     return c
 
 
