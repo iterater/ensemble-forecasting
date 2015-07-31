@@ -61,15 +61,23 @@ def lse_coeff(fcs, start_index, stop_index, w):
     return np.linalg.solve(a, b)
 
 
-def forecast_peak_error(fc, msk_l):
-    msk_b = np.ones(len(fc), dtype=bool)
-    msk_b[msk_l] = 0
-    max_l_err = np.amax(fc, axis=1) - np.amax(m_fc, axis=1)
-    max_t_err = (np.argmax(fc, axis=1) - np.argmax(m_fc, axis=1)).astype(float)
-    msk_add = (max_l_err > 20) | (max_l_err < -20) | (max_t_err > 10) | (max_t_err < -10)
-    max_l_err[msk_b | msk_add] = np.nan
-    max_t_err[msk_b | msk_add] = np.nan
-    return np.vstack((max_t_err, max_l_err))
+def forecast_peak_error(test_fc, base_fc, base_peak_pos):
+    peak_pos_test = np.zeros(len(test_fc))
+    peak_pos_base = np.zeros(len(base_fc))
+    peak_level_test = np.zeros(len(base_fc))
+    peak_level_base = np.zeros(len(base_fc))
+    for i in range(len(test_fc)):
+        for j in range(len(test_fc[i])):
+            if (j > base_peak_pos[i] - 20) and (j < base_peak_pos[i] + 20):
+                if test_fc[i, j] > test_fc[i, peak_pos_test[i]]:
+                    peak_pos_test[i] = j
+                    peak_level_test[i] = test_fc[i, j]
+                if base_fc[i, j] > base_fc[i, peak_pos_base[i]]:
+                    peak_pos_base[i] = j
+                    peak_level_base[i] = base_fc[i, j]
+    l_err = peak_level_test - peak_level_base
+    t_err = (peak_pos_test - peak_pos_base).astype(float)
+    return np.vstack((t_err, l_err))
 
 
 def forecast_wmae(fc, pl):
@@ -259,97 +267,96 @@ fc_1 = np.full((N, T + 1), c[3])
 for src_i in range(3):
     fc_1 += src_set[src_i] * c[src_i]
 # peak tuning
-# for i in range(len(p_flt)):
-#     print("Forcing FC", p_flt[i, 0])
-#     fc_1[p_flt[i, 0]] = scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i])
+for i in range(len(p_flt)):
+    print("Forcing FC", p_flt[i, 0])
+    fc_1[p_flt[i, 0]] = scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i])
 indexRange = np.arange(N)
 
-plt.figure(1, figsize=(12, 5))
-plt.plot(indexRange, forecast_error(fc_def), indexRange, forecast_error(fc_1))
-plt.legend(['Ensemble def', 'Ensemble #1'])
-plt.title('Simple ensemble MAE')
-plt.xlabel('Forecast index')
-plt.ylabel('Forecast MAE, cm')
-plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-mae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
+peak_index = p_flt[:, 0].flatten().astype(int)
+peak_mask = np.zeros(len(m_fc), dtype=bool)
+peak_mask[peak_index] = 1
+fc_def_err = forecast_peak_error(fc_def[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
+fc_1_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 
-plt.figure(1, figsize=(12, 5))
-plt.plot(indexRange, forecast_wmae(fc_def, pLevel), indexRange, forecast_wmae(fc_1, pLevel))
-plt.legend(['Ensemble def', 'Ensemble #1'])
-plt.title('Ensemble WMAE')
-plt.xlabel('Forecast index')
-plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
-plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-wmae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
-
-plt.figure(1, figsize=(12, 5))
-fc_def_err = forecast_peak_error(fc_def, np.array(p_flt[:, 0]).flatten().astype(int))
-fc_1_err = forecast_peak_error(fc_1, np.array(p_flt[:, 0]).flatten().astype(int))
-plt.plot(indexRange, fc_def_err[0], 'o-')
-plt.plot(indexRange, fc_1_err[0], 'o-')
-plt.legend(['Ensemble def', 'Ensemble #1'])
-plt.xlabel('Forecast index')
-plt.ylabel('Peak time error, h')
-plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-pet-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
-
-plt.figure(1, figsize=(12, 5))
-plt.plot(indexRange, fc_def_err[1], 'o-')
-plt.plot(indexRange, fc_1_err[1], 'o-')
-plt.legend(['Ensemble def', 'Ensemble #1'])
-plt.xlabel('Forecast index')
-plt.ylabel('Peak level error, cm')
-plt.xlim([0, N - 1])
-plt.savefig('pics\\ensemble-1-pel-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
-
-plt.figure(1, figsize=(8, 6))
-nan_filter = ~np.isnan(fc_def_err[1]) & ~np.isnan(fc_1_err[1])
-lim = [-30, 30]
-# gkde = gaussian_kde(fc_def_err[1][nan_filter])
-x = np.linspace(lim[0], lim[1], 100)
-# pdf = gkde(x)
-# plt.plot(x, pdf, linewidth=2, color='b')
-plt.hist(fc_def_err[1][nan_filter], histtype='step', normed=True, color='b')
-kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_def_err[1][nan_filter]).reshape(-1, 1))
-plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
-# gkde = gaussian_kde(fc_1_err[1][nan_filter])
-# pdf = gkde(x)
-# plt.plot(x, pdf, linewidth=2, color='r')
-plt.hist(fc_1_err[1][nan_filter], histtype='step', normed=True, color='r')
-kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_1_err[1][nan_filter]).reshape(-1, 1))
-plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
-plt.legend(['Ensemble def', 'Ensemble #1'])
-plt.xlabel('Peak level error, cm')
-plt.ylabel('PDF')
-plt.savefig('pics\\ensemble-1-pel-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
-
-plt.figure(1, figsize=(8, 6))
-nan_filter = ~np.isnan(fc_def_err[0]) & ~np.isnan(fc_1_err[0])
 print('Error def (T, L): ')
-print(np.mean(fc_def_err[:, nan_filter], axis=1))
+print(np.mean(fc_def_err, axis=1))
 print('Error 1 (T, L): ')
-print(np.mean(fc_1_err[:, nan_filter], axis=1))
-lim = [-10, 10]
+print(np.mean(fc_1_err, axis=1))
+
+
+# plt.figure(1, figsize=(12, 5))
+# plt.plot(indexRange, forecast_error(fc_def), indexRange, forecast_error(fc_1))
+# plt.legend(['Ensemble def', 'Ensemble #1'])
+# plt.title('Simple ensemble MAE')
+# plt.xlabel('Forecast index')
+# plt.ylabel('Forecast MAE, cm')
+# plt.xlim([0, N - 1])
+# plt.savefig('pics\\ensemble-1-mae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
+# plt.close()
+
+# plt.figure(1, figsize=(12, 5))
+# plt.plot(indexRange, forecast_wmae(fc_def, pLevel), indexRange, forecast_wmae(fc_1, pLevel))
+# plt.legend(['Ensemble def', 'Ensemble #1'])
+# plt.title('Ensemble WMAE')
+# plt.xlabel('Forecast index')
+# plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
+# plt.xlim([0, N - 1])
+# plt.savefig('pics\\ensemble-1-wmae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
+# plt.close()
+
+# plt.figure(1, figsize=(12, 5))
+# plt.plot(indexRange, fc_def_err[0], 'o-')
+# plt.plot(indexRange, fc_1_err[0], 'o-')
+# plt.legend(['Ensemble def', 'Ensemble #1'])
+# plt.xlabel('Forecast index')
+# plt.ylabel('Peak time error, h')
+# plt.xlim([0, N - 1])
+# plt.savefig('pics\\ensemble-1-pet-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
+# plt.close()
+
+# plt.figure(1, figsize=(12, 5))
+# plt.plot(indexRange, fc_def_err[1], 'o-')
+# plt.plot(indexRange, fc_1_err[1], 'o-')
+# plt.legend(['Ensemble def', 'Ensemble #1'])
+# plt.xlabel('Forecast index')
+# plt.ylabel('Peak level error, cm')
+# plt.xlim([0, N - 1])
+# plt.savefig('pics\\ensemble-1-pel-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
+# plt.close()
+
+# plt.figure(1, figsize=(8, 6))
+# nan_filter = ~np.isnan(fc_def_err[1]) & ~np.isnan(fc_1_err[1])
+# lim = [-30, 30]
+# x = np.linspace(lim[0], lim[1], 100)
+# plt.hist(fc_def_err[1][nan_filter], histtype='step', normed=True, color='b')
+# kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_def_err[1][nan_filter]).reshape(-1, 1))
+# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
+# plt.hist(fc_1_err[1][nan_filter], histtype='step', normed=True, color='r')
+# kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_1_err[1][nan_filter]).reshape(-1, 1))
+# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
+# plt.legend(['Ensemble def', 'Ensemble #1'])
+# plt.xlabel('Peak level error, cm')
+# plt.ylabel('PDF')
+# plt.savefig('pics\\ensemble-1-pel-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
+# plt.close()
+
+# plt.figure(1, figsize=(8, 6))
+# nan_filter = ~np.isnan(fc_def_err[0]) & ~np.isnan(fc_1_err[0])
+# print('Error def (T, L): ')
+# print(np.mean(fc_def_err[:, nan_filter], axis=1))
+# print('Error 1 (T, L): ')
+# print(np.mean(fc_1_err[:, nan_filter], axis=1))
+# lim = [-10, 10]
 # gkde = gaussian_kde(fc_def_err[0][nan_filter])
-x = np.linspace(lim[0], lim[1], 100)
-# pdf = gkde(x)
-# plt.plot(x, pdf, linewidth=2, color='b')
-plt.hist(fc_def_err[0][nan_filter], histtype='step', normed=True, color='b')
-kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_def_err[0][nan_filter]).reshape(-1, 1))
-plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
-# gkde = gaussian_kde(fc_1_err[0][nan_filter])
-# pdf = gkde(x)
-# plt.plot(x, pdf, linewidth=2, color='r')
-plt.hist(fc_1_err[0][nan_filter], histtype='step', normed=True, color='r')
-kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_1_err[0][nan_filter]).reshape(-1, 1))
-plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
-plt.legend(['Ensemble def', 'Ensemble #1'])
-plt.xlabel('Peak time error, h')
-plt.ylabel('PDF')
-plt.savefig('pics\\ensemble-1-pet-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
+# x = np.linspace(lim[0], lim[1], 100)
+# plt.hist(fc_def_err[0][nan_filter], histtype='step', normed=True, color='b')
+# kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_def_err[0][nan_filter]).reshape(-1, 1))
+# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
+# plt.hist(fc_1_err[0][nan_filter], histtype='step', normed=True, color='r')
+# kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_1_err[0][nan_filter]).reshape(-1, 1))
+# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
+# plt.legend(['Ensemble def', 'Ensemble #1'])
+# plt.xlabel('Peak time error, h')
+# plt.ylabel('PDF')
+# plt.savefig('pics\\ensemble-1-pet-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
+# plt.close()
