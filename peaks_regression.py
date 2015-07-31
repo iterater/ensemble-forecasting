@@ -7,15 +7,13 @@ import math as m
 def print_errors(e_arr, name):
     print(name, 'BIAS:', np.mean(e_arr), 'MAE:', np.mean(np.abs(e_arr)), 'STDEV:', np.std(e_arr))
 
-def regr_coeff(x, y, bad_list):
+def regr_coeff(x, y, param_name):
     N = x.shape[1]
     mask = ~np.isnan(y)
     for i in range(N):
         mask &= ~np.isnan(x[:, i])
-    good_mask = np.ones(sum(mask), dtype=bool)
-    good_mask[bad_list] = 0
-    x_flt = x[mask][good_mask]
-    y_flt = y[mask][good_mask]
+    x_flt = x[mask]
+    y_flt = y[mask]
     for i in range(N):
         print_errors(y_flt - x_flt[:, i], str(i))
     a = np.zeros((N + 1, N + 1))
@@ -32,6 +30,15 @@ def regr_coeff(x, y, bad_list):
     test = np.full(len(y_flt), c[-1])
     for i in range(N):
         test += c[i]*x_flt[:, i]
+    lim = [min(min(test), min(y_flt)), max(max(test), max(y_flt))]
+    plt.figure(1, figsize=(5, 5))
+    plt.plot(y_flt, test, 'o')
+    plt.plot(lim, lim, 'k')
+    plt.xlabel('Original parameter '+param_name)
+    plt.ylabel('Ensemble parameter '+param_name)
+    plt.savefig('pics\\parameter_regression_'+param_name+'.png')
+    plt.close()
+    np.savetxt('data\\pre_parameter_estimation_'+param_name+'.txt', test)
     print_errors(y_flt - test, 'ENS')
     return c
 
@@ -48,6 +55,13 @@ def regr_coeff_all(pLevel):
         p1[:, 4*i + 2] = p[:, 4*i + 1]
         p1[:, 4*i + 3] = p[:, 4*i + 3] + p[:, 4*i + 4]
         p1[:, 4*i + 4] = p[:, 4*i + 3] / (p[:, 4*i + 3] + p[:, 4*i + 4])
+    # mask processing
+    mask = ~np.isnan(p1[:, 0])
+    for i in range(p1.shape[1]):
+        mask &= ~np.isnan(p1[:, i])
+    good_mask = np.ones(sum(mask), dtype=bool)
+    good_mask[bad_list] = 0
+    p1 = p1[mask][good_mask]
     src_names = ['BSM-WOWC-HIRLAM', 'BALTP-90M-GFS', 'HIROMB', 'M']
     param_names = ['H', 'T', 'W', 'D']
     res_coeff = []
@@ -57,7 +71,7 @@ def regr_coeff_all(pLevel):
         print('Optimizing '+param_names[p_idx])
         src_data = p1[:, (1 + p_idx):(1 + p_cnt * s_cnt):p_cnt]
         m_data = p1[:, 1 + p_idx + p_cnt * s_cnt]
-        cc = regr_coeff(src_data, m_data, bad_list)
+        cc = regr_coeff(src_data, m_data, param_names[p_idx])
         res_coeff += [cc, ]
     return np.array(res_coeff)
 
