@@ -1,10 +1,9 @@
-from scipy.stats import gaussian_kde
 import os
 import numpy as np
-import scipy.interpolate as interp
 import matplotlib.pyplot as plt
 import math as mt
-from sklearn.neighbors.kde import KernelDensity
+import scaling_forecast_procedures as sfp
+import peak_plot_procedures as ppp
 
 s1 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BSM-WOWC-HIRLAM-S1.txt')
 s2 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BALTP-90M-GFS-S1.txt')[:, 0:61]
@@ -17,7 +16,6 @@ print(np.shape(m))
 
 N = 281
 T = 60
-
 
 m_fc = np.zeros((N, T+1))
 for i in range(N):
@@ -95,11 +93,9 @@ def forecast_error(fc):
 
 
 pLevel = 80
-level_scale_mode = 1 # 0 - mult, 1 - add-peak, 2 - add-all
-level_scale_flag = False
+source_v_scale_mode = sfp.ScaleType.no_scale
+ensemble_v_scale_mode = sfp.ScaleType.add_all_scale
 level_scale_flag_string = ''
-if level_scale_flag:
-    level_scale_flag_string = 'l' + str(level_scale_mode)
 w = create_w_mask(N, 0)
 # w = create_w_mask_from_level(N, 0.05)
 src_set = (s1, s2, s3)
@@ -110,105 +106,6 @@ e_def = []
 for src_i in range(3):
     fc_def += src_set[src_i] * c[src_i]
 indexRange = np.arange(N)
-plt.figure(1, figsize=(12, 5))
-plt.plot(indexRange, forecast_error(fc_def), indexRange, forecast_error(s1), indexRange, forecast_error(s2), indexRange, forecast_error(s3))
-plt.legend(['Ensemble', 'Hiromb', 'Swan', 'No-Swan'])
-plt.title('Simple ensemble MAE')
-plt.xlabel('Forecast index')
-plt.ylabel('Forecast MAE, cm')
-plt.xlim([0, N])
-plt.savefig('pics\\simple-ensemble-mae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
-
-plt.figure(1, figsize=(12, 5))
-plt.plot(indexRange, forecast_wmae(fc_def, pLevel), indexRange, forecast_wmae(s1, pLevel), indexRange, forecast_wmae(s2, pLevel), indexRange, forecast_wmae(s3, pLevel))
-plt.legend(['Ensemble', 'Hiromb', 'Swan', 'No-Swan'])
-plt.title('Ensemble WMAE')
-plt.xlabel('Forecast index')
-plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
-plt.xlim([0, N])
-plt.savefig('pics\\simple-ensemble-wmae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-plt.close()
-
-
-def scale_peak_vertically(fc, target_peak):
-    p_start = np.round(target_peak[1] - target_peak[2] * target_peak[3])
-    p_start = max(p_start, 0)
-    p_end = np.round(target_peak[1] + target_peak[2] * (1.0 - target_peak[3]))
-    p_end = min(p_end, T)
-    p_pos = np.round(target_peak[1])
-    scale = np.full(fc.shape, 0)
-    add = target_peak[0] - fc[p_pos]
-    for t_fc in range(T + 1):
-        if t_fc == p_pos:
-            scale[t_fc] = add
-        if (t_fc > p_start) and (t_fc < p_pos):
-            scale[t_fc] = add * (t_fc - p_start) / (p_pos - p_start)
-        if (t_fc > p_pos) and (t_fc < p_end):
-            scale[t_fc] = add * (p_end - t_fc) / (p_end - p_pos)
-    l_res = fc + scale
-    return l_res
-
-
-
-def transform_forecast(fc, original_peak, target_peak, scale_vertical):
-    # Full scale
-    # t_src_nodes = [-1, np.round(original_peak[1] - original_peak[2] * original_peak[3]), np.round(original_peak[1]), np.round(original_peak[1] + original_peak[2] * (1.0 - original_peak[3])), T + 1]
-    # t_dst_nodes = [-1, int(target_peak[1] - target_peak[2] * target_peak[3]), int(target_peak[1]), int(target_peak[1] + target_peak[2] * (1.0 - target_peak[3])), T + 1]
-    # Peak scale
-    p_start = min(np.round(original_peak[1] - original_peak[2] * original_peak[3]), np.round(target_peak[1] - target_peak[2] * target_peak[3]))
-    p_start = max(p_start, 0)
-    p_end = max(np.round(original_peak[1] + original_peak[2] * (1.0 - original_peak[3])), np.round(target_peak[1] + target_peak[2] * (1.0 - target_peak[3])))
-    p_end = min(p_end, T)
-    t_src_nodes = [-1, p_start, np.round(original_peak[1]), p_end, T + 1]
-    t_dst_nodes = [-1, p_start, np.round(target_peak[1]), p_end, T + 1]
-    # multiplication scale
-    if level_scale_mode == 0:
-        scale = np.full(fc.shape, 1)
-        mult = target_peak[0] / original_peak[0]
-        if scale_vertical:
-            for t_fc in range(T + 1):
-                if t_fc == t_src_nodes[2]:
-                    scale[t_fc] = mult
-                if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
-                    scale[t_fc] = mult * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
-                if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
-                    scale[t_fc] = mult * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
-        l_res = fc * scale
-    # additive scale
-    if level_scale_mode == 1:
-        scale = np.full(fc.shape, 0)
-        add = target_peak[0] - original_peak[0]
-        if scale_vertical:
-            for t_fc in range(T + 1):
-                if t_fc == t_src_nodes[2]:
-                    scale[t_fc] = add
-                if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
-                    scale[t_fc] = add * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
-                if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
-                    scale[t_fc] = add * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
-        l_res = fc + scale
-    # additive all scale
-    if level_scale_mode == 2:
-        scale = target_peak[0] - original_peak[0]
-        l_res = fc + scale
-    l_res = np.concatenate(([l_res[0]], l_res, [l_res[-1]]))
-    t_res = np.array([])
-    for node_i in range(4):
-        idxs = np.arange(t_src_nodes[node_i], t_src_nodes[node_i + 1] + 1) - t_src_nodes[node_i]
-        if t_src_nodes[node_i + 1] != t_src_nodes[node_i]:
-            idxs *= (t_dst_nodes[node_i + 1] - t_dst_nodes[node_i]) / (t_src_nodes[node_i + 1] - t_src_nodes[node_i])
-        idxs += t_dst_nodes[node_i]
-        if node_i != 0:
-            idxs = idxs[1:]
-        t_res = np.concatenate((t_res, idxs))
-    if len(t_res) != len(l_res):
-        print('ACHTUNG!!!')
-        return [0]
-    fi = interp.interp1d(t_res, l_res)
-    res = fi(np.arange(0, T+1))
-    return res
-
 
 p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
 pc = np.loadtxt('data\\regr_coeff_'+str(pLevel).zfill(3)+'.txt')
@@ -232,7 +129,7 @@ if not os.path.exists(dir_name):
 res_params_array = []
 for i in range(len(p_flt)):
     print('FC #' + str(i))
-    plt.figure(i, figsize=(7, 5))
+    # plt.figure(i, figsize=(10, 7))
     params = []
     res_params = pc[:, 3].flatten()
     for src_i in range(3):
@@ -240,123 +137,62 @@ for i in range(len(p_flt)):
         p2 = [p1[1], p1[0], p1[2] + p1[3], p1[2] / (p1[2] + p1[3])]
         params += [p2]
         res_params = res_params + np.array(p2) * pc[:, src_i].flatten()
-        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
-    plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
-    peak_t = [res_params[1] - res_params[2] * res_params[3], res_params[1], res_params[1] + res_params[2] * (1.0 - res_params[3])]
+        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
+    # plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
+    peak_t = [res_params[1] - res_params[2] * res_params[3],
+              res_params[1],
+              res_params[1] + res_params[2] * (1.0 - res_params[3])]
     peak_l[1] = res_params[0]
-    plt.plot(peak_t, peak_l, '^', markersize=10)
-    plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-')
+    # plt.plot(peak_t, peak_l, '^', markersize=10)
+    # plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-')
     e_fc = np.full(T + 1, c[3])
     for src_i in range(3):
-        src_set[src_i][p_flt[i, 0]] = transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i], res_params, level_scale_flag)
-        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
+        src_set[src_i][p_flt[i, 0]] = sfp.transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i],
+                                                             res_params, T, source_v_scale_mode)
+        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
         e_fc += src_set[src_i][p_flt[i, 0]] * c[src_i]
-    plt.plot(t_idx, e_fc, 'k--')
-    e_fc_v = scale_peak_vertically(e_fc, res_params)
+    # plt.plot(t_idx, e_fc, 'k--')
+    e_fc_v = sfp.scale_peak_vertically(e_fc, res_params, T, ensemble_v_scale_mode)
     res_params_array = np.concatenate((res_params_array, res_params))
-    plt.plot(t_idx, e_fc_v, 'k:')
-    plt.xlim([0, T])
-    plt.xlabel('Forecast time, h')
-    plt.ylabel('Level, cm')
-    plt.savefig(dir_name + '\\forecast-' + str(i).zfill(3) + '.png')
-    plt.close()
+    # plt.plot(t_idx, e_fc_v, 'k:')
+    # plt.xlim([0, T])
+    # plt.xlabel('Forecast time, h')
+    # plt.ylabel('Level, cm')
+    # plt.savefig(dir_name + '\\forecast-' + str(i).zfill(3) + '.png')
+    # plt.close()
 res_params_array = res_params_array.reshape((len(p_flt), 4))
-
-c = lse_coeff(src_set, 0, N - 1, w)
-fc_1 = np.full((N, T + 1), c[3])
-for src_i in range(3):
-    fc_1 += src_set[src_i] * c[src_i]
-# peak tuning
-for i in range(len(p_flt)):
-    print("Forcing FC", p_flt[i, 0])
-    fc_1[p_flt[i, 0]] = scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i])
-indexRange = np.arange(N)
 
 peak_index = p_flt[:, 0].flatten().astype(int)
 peak_mask = np.zeros(len(m_fc), dtype=bool)
 peak_mask[peak_index] = 1
+
+# default peak errror
 fc_def_err = forecast_peak_error(fc_def[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
+
+# basic ensemble on tuned sources
+c = lse_coeff(src_set, 0, N - 1, w)
+fc_1 = np.full((N, T + 1), c[3])
+for src_i in range(3):
+    fc_1 += src_set[src_i] * c[src_i]
+fc_0_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
+
+# additional peak forcing
+for i in range(len(p_flt)):
+    print("Forcing FC", p_flt[i, 0])
+    fc_1[p_flt[i, 0]] = sfp.scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i],
+                                                  T, ensemble_v_scale_mode)
 fc_1_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 
 print('Error def (T, L): ')
 print(np.mean(fc_def_err, axis=1))
+print('Error 0 (T, L): ')
+print(np.mean(fc_0_err, axis=1))
 print('Error 1 (T, L): ')
 print(np.mean(fc_1_err, axis=1))
 
-
-# plt.figure(1, figsize=(12, 5))
-# plt.plot(indexRange, forecast_error(fc_def), indexRange, forecast_error(fc_1))
-# plt.legend(['Ensemble def', 'Ensemble #1'])
-# plt.title('Simple ensemble MAE')
-# plt.xlabel('Forecast index')
-# plt.ylabel('Forecast MAE, cm')
-# plt.xlim([0, N - 1])
-# plt.savefig('pics\\ensemble-1-mae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-# plt.close()
-
-# plt.figure(1, figsize=(12, 5))
-# plt.plot(indexRange, forecast_wmae(fc_def, pLevel), indexRange, forecast_wmae(fc_1, pLevel))
-# plt.legend(['Ensemble def', 'Ensemble #1'])
-# plt.title('Ensemble WMAE')
-# plt.xlabel('Forecast index')
-# plt.ylabel('WMAE (' + str(pLevel) + ' cm), cm')
-# plt.xlim([0, N - 1])
-# plt.savefig('pics\\ensemble-1-wmae-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-# plt.close()
-
-# plt.figure(1, figsize=(12, 5))
-# plt.plot(indexRange, fc_def_err[0], 'o-')
-# plt.plot(indexRange, fc_1_err[0], 'o-')
-# plt.legend(['Ensemble def', 'Ensemble #1'])
-# plt.xlabel('Forecast index')
-# plt.ylabel('Peak time error, h')
-# plt.xlim([0, N - 1])
-# plt.savefig('pics\\ensemble-1-pet-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-# plt.close()
-
-# plt.figure(1, figsize=(12, 5))
-# plt.plot(indexRange, fc_def_err[1], 'o-')
-# plt.plot(indexRange, fc_1_err[1], 'o-')
-# plt.legend(['Ensemble def', 'Ensemble #1'])
-# plt.xlabel('Forecast index')
-# plt.ylabel('Peak level error, cm')
-# plt.xlim([0, N - 1])
-# plt.savefig('pics\\ensemble-1-pel-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-# plt.close()
-
-# plt.figure(1, figsize=(8, 6))
-# nan_filter = ~np.isnan(fc_def_err[1]) & ~np.isnan(fc_1_err[1])
-# lim = [-30, 30]
-# x = np.linspace(lim[0], lim[1], 100)
-# plt.hist(fc_def_err[1][nan_filter], histtype='step', normed=True, color='b')
-# kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_def_err[1][nan_filter]).reshape(-1, 1))
-# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
-# plt.hist(fc_1_err[1][nan_filter], histtype='step', normed=True, color='r')
-# kde = KernelDensity(kernel='gaussian', bandwidth=2).fit(np.array(fc_1_err[1][nan_filter]).reshape(-1, 1))
-# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
-# plt.legend(['Ensemble def', 'Ensemble #1'])
-# plt.xlabel('Peak level error, cm')
-# plt.ylabel('PDF')
-# plt.savefig('pics\\ensemble-1-pel-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-# plt.close()
-
-# plt.figure(1, figsize=(8, 6))
-# nan_filter = ~np.isnan(fc_def_err[0]) & ~np.isnan(fc_1_err[0])
-# print('Error def (T, L): ')
-# print(np.mean(fc_def_err[:, nan_filter], axis=1))
-# print('Error 1 (T, L): ')
-# print(np.mean(fc_1_err[:, nan_filter], axis=1))
-# lim = [-10, 10]
-# gkde = gaussian_kde(fc_def_err[0][nan_filter])
-# x = np.linspace(lim[0], lim[1], 100)
-# plt.hist(fc_def_err[0][nan_filter], histtype='step', normed=True, color='b')
-# kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_def_err[0][nan_filter]).reshape(-1, 1))
-# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='b')
-# plt.hist(fc_1_err[0][nan_filter], histtype='step', normed=True, color='r')
-# kde = KernelDensity(kernel='gaussian', bandwidth=0.5).fit(np.array(fc_1_err[0][nan_filter]).reshape(-1, 1))
-# plt.plot(x, np.exp(kde.score_samples(x.reshape(-1, 1))), linewidth=2, color='r')
-# plt.legend(['Ensemble def', 'Ensemble #1'])
-# plt.xlabel('Peak time error, h')
-# plt.ylabel('PDF')
-# plt.savefig('pics\\ensemble-1-pet-pdf-' + level_scale_flag_string + 't-scale-pl' + str(pLevel).zfill(3) + '.png')
-# plt.close()
+ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_1_err[1]), 'Default ensemble, AE(H), cm',
+                'E. with shifted sources and peak forcing, AE(H), cm', 'pics\\bp_l_def_vs_e1.png')
+ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_0_err[1]), 'Default ensemble, AE(H), cm',
+                'E. with shifted sources, AE(H), cm', 'pics\\bp_l_def_vs_e0.png')
+ppp.plot_biplot(np.abs(fc_def_err[0]), np.abs(fc_0_err[0]), 'Default ensemble, AE(T), h',
+                'E. with shifted sources, AE(T), h', 'pics\\bp_t_def_vs_e0.png')
