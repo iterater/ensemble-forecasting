@@ -183,16 +183,18 @@ for i in range(len(p_flt)):
                                                   T, ensemble_v_scale_mode)
 fc_1_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 
-print('Error def (T, L): ')
-print(np.mean(fc_def_err, axis=1))
-print('Error 0 (T, L): ')
-print(np.mean(fc_0_err, axis=1))
-print('Error 1 (T, L): ')
-print(np.mean(fc_1_err, axis=1))
+print('BIAS E. default (T, L):', np.mean(fc_def_err, axis=1))
+print('BIAS E0 (T, L):', np.mean(fc_0_err, axis=1))
+print('BIAS E1 (T, L):', np.mean(fc_1_err, axis=1))
+print('STDEV E. default (T, L):', np.std(fc_def_err, axis=1))
+print('STDEV E0 (T, L):', np.std(fc_0_err, axis=1))
+print('STDEV E1 (T, L):', np.std(fc_1_err, axis=1))
+print('Average improve  E0 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_0_err), axis=1))
+print('Average improve E1 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_1_err), axis=1))
 
-ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_1_err[1]), 'Default ensemble, AE(H), cm',
-                'E. with shifted sources and peak forcing, AE(H), cm', 'pics\\bp_l_def_vs_e1.png')
-ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_0_err[1]), 'Default ensemble, AE(H), cm',
-                'E. with shifted sources, AE(H), cm', 'pics\\bp_l_def_vs_e0.png')
-ppp.plot_biplot(np.abs(fc_def_err[0]), np.abs(fc_0_err[0]), 'Default ensemble, AE(T), h',
-                'E. with shifted sources, AE(T), h', 'pics\\bp_t_def_vs_e0.png')
+# ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_1_err[1]), 'Default ensemble, AE(H), cm',
+#                 'E. with shifted sources and peak forcing, AE(H), cm', 'pics\\bp_l_def_vs_e1.png')
+# ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_0_err[1]), 'Default ensemble, AE(H), cm',
+#                 'E. with shifted sources, AE(H), cm', 'pics\\bp_l_def_vs_e0.png')
+# ppp.plot_biplot(np.abs(fc_def_err[0]), np.abs(fc_0_err[0]), 'Default ensemble, AE(T), h',
+#                 'E. with shifted sources, AE(T), h', 'pics\\bp_t_def_vs_e0.png')
