@@ -192,9 +192,9 @@ print('STDEV E1 (T, L):', np.std(fc_1_err, axis=1))
 print('Average improve  E0 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_0_err), axis=1))
 print('Average improve E1 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_1_err), axis=1))
 
-# ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_1_err[1]), 'Default ensemble, AE(H), cm',
-#                 'E. with shifted sources and peak forcing, AE(H), cm', 'pics\\bp_l_def_vs_e1.png')
-# ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_0_err[1]), 'Default ensemble, AE(H), cm',
-#                 'E. with shifted sources, AE(H), cm', 'pics\\bp_l_def_vs_e0.png')
-# ppp.plot_biplot(np.abs(fc_def_err[0]), np.abs(fc_0_err[0]), 'Default ensemble, AE(T), h',
-#                 'E. with shifted sources, AE(T), h', 'pics\\bp_t_def_vs_e0.png')
+ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_1_err[1]), 'Default ensemble, AE(H), cm',
+                'E. with shifted sources and peak forcing, AE(H), cm', 'pics\\bp_l_def_vs_e1.png')
+ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_0_err[1]), 'Default ensemble, AE(H), cm',
+                'E. with shifted sources, AE(H), cm', 'pics\\bp_l_def_vs_e0.png')
+ppp.plot_biplot(np.abs(fc_def_err[0]), np.abs(fc_0_err[0]), 'Default ensemble, AE(T), h',
+                'E. with shifted sources, AE(T), h', 'pics\\bp_t_def_vs_e0.png')
