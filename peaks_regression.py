@@ -19,6 +19,13 @@ def lin_combination(x, k):
     return y1.flatten()
 
 
+# Meshalkin loss function
+def rho_meshalkin(x, y, k):
+    lmbd = 0.1
+    d = lin_combination(x, k) - y
+    return sum([(1 - m.exp(-lmbd * d[i] * d[i] / 2)) / lmbd for i in range(len(d))])
+
+
 # abs loss function
 def rho_abs(x, y, k):
     d = lin_combination(x, k) - y
@@ -42,7 +49,7 @@ def regr_coeff_opt(x, y, param_name):
     for i in range(N):
         print_errors(y_flt - x_flt[:, i], str(i))
     c0 = np.concatenate((np.full(N, 1.0 / N), [0, ]))
-    f = lambda k: rho_square(x_flt, y_flt, k)
+    f = lambda k: rho_meshalkin(x_flt, y_flt, k)
     opt_res = opt.minimize(f, c0)
     c = opt_res.x
     test = lin_combination(x_flt, c)
