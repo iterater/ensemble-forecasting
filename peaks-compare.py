@@ -171,6 +171,7 @@ peak_mask[peak_index] = 1
 fc_def_err = forecast_peak_error(fc_def[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 fc_def_wmae = fcd.forecast_wmae(fc_def[peak_mask], m_fc[peak_mask], pLevel)
 fc_def_wbias = fcd.forecast_wbias(fc_def[peak_mask], m_fc[peak_mask], pLevel)
+fc_def_dtw = fcd.forecast_dist_dtw(fc_def[peak_mask], m_fc[peak_mask])
 
 # basic ensemble on tuned sources
 c = lse_coeff(src_set, 0, N - 1, w)
@@ -180,6 +181,7 @@ for src_i in range(3):
 fc_0_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 fc_0_wmae = fcd.forecast_wmae(fc_1[peak_mask], m_fc[peak_mask], pLevel)
 fc_0_wbias = fcd.forecast_wbias(fc_1[peak_mask], m_fc[peak_mask], pLevel)
+fc_0_dtw = fcd.forecast_dist_dtw(fc_1[peak_mask], m_fc[peak_mask])
 
 # additional peak forcing
 for i in range(len(p_flt)):
@@ -189,8 +191,12 @@ for i in range(len(p_flt)):
 fc_1_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 fc_1_wmae = fcd.forecast_wmae(fc_1[peak_mask], m_fc[peak_mask], pLevel)
 fc_1_wbias = fcd.forecast_wbias(fc_1[peak_mask], m_fc[peak_mask], pLevel)
+fc_1_dtw = fcd.forecast_dist_dtw(fc_1[peak_mask], m_fc[peak_mask])
 
-print('== Peak parameters errors ==')
+print('== Forecast errors ==')
+print('DTW E. default:', np.mean(fc_def_dtw))
+print('DTW E0:', np.mean(fc_0_dtw))
+print('DTW E1:', np.mean(fc_1_dtw))
 print('WMAE E. default:', np.mean(fc_def_wmae))
 print('WMAE E0:', np.mean(fc_0_wmae))
 print('WMAE E1:', np.mean(fc_1_wmae))
