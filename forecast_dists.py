@@ -44,3 +44,42 @@ def forecast_dist_dtw(fc1, fc2):
         res[fc_i] = m[fc_shape[1] - 1, fc_shape[1] - 1] / k[fc_shape[1] - 1, fc_shape[1] - 1]
     return res
 
+
+def forecast_wmae(fc, m_fc, lev_lim):
+    """
+    WMAE for forecasts
+    :param fc: Forecasts array 1 of shape (N,T)
+    :param m_fc: Measurements forecasts array 1 of shape (N,T)
+    :param lev_lim: Level for cut
+    :return: WMAE array of shape (N)
+    """
+    fc_shape = np.shape(fc)
+    res = np.zeros(fc_shape[0])
+    for i in range(fc_shape[0]):
+        mask = m_fc[i] >= lev_lim
+        n = sum(mask)
+        if n == 0:
+            res[i] = np.nan
+        else:
+            res[i] = np.average(np.abs((m_fc[i] - fc[i])[mask]))
+    return res
+
+
+def forecast_wbias(fc, m_fc, lev_lim):
+    """
+    WBIAS for forecasts
+    :param fc: Forecasts array 1 of shape (N,T)
+    :param m_fc: Measurements forecasts array 1 of shape (N,T)
+    :param lev_lim: Level for cut
+    :return: WBIAS array of shape (N)
+    """
+    fc_shape = np.shape(fc)
+    res = np.zeros(fc_shape[0])
+    for i in range(fc_shape[0]):
+        mask = m_fc[i] >= lev_lim
+        n = sum(mask)
+        if n == 0:
+            res[i] = np.nan
+        else:
+            res[i] = np.average((m_fc[i] - fc[i])[mask])
+    return res

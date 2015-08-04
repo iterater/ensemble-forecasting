@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import math as mt
 import scaling_forecast_procedures as sfp
 import peak_plot_procedures as ppp
+import forecast_dists as fcd
 
 s1 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BSM-WOWC-HIRLAM-S1.txt')
 s2 = np.loadtxt('data\\ensemble-forecasts\\2013102012-BALTP-90M-GFS-S1.txt')[:, 0:61]
@@ -168,6 +169,7 @@ peak_mask[peak_index] = 1
 
 # default peak errror
 fc_def_err = forecast_peak_error(fc_def[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
+fc_def_wmae = fcd.forecast_wmae(fc_def[peak_mask], m_fc[peak_mask], pLevel)
 
 # basic ensemble on tuned sources
 c = lse_coeff(src_set, 0, N - 1, w)
@@ -175,6 +177,7 @@ fc_1 = np.full((N, T + 1), c[3])
 for src_i in range(3):
     fc_1 += src_set[src_i] * c[src_i]
 fc_0_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
+fc_0_wmae = fcd.forecast_wmae(fc_1[peak_mask], m_fc[peak_mask], pLevel)
 
 # additional peak forcing
 for i in range(len(p_flt)):
@@ -182,7 +185,14 @@ for i in range(len(p_flt)):
     fc_1[p_flt[i, 0]] = sfp.scale_peak_vertically(fc_1[p_flt[i, 0]], res_params_array[i],
                                                   T, ensemble_v_scale_mode)
 fc_1_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
+fc_1_wmae = fcd.forecast_wmae(fc_1[peak_mask], m_fc[peak_mask], pLevel)
 
+print('== Peak parameters errors ==')
+print('WMAE E. default:', np.mean(fc_def_wmae))
+print('WMAE E0:', np.mean(fc_0_wmae))
+print('WMAE E1:', np.mean(fc_1_wmae))
+
+print('== Peak parameters errors ==')
 print('BIAS E. default (T, L):', np.mean(fc_def_err, axis=1))
 print('BIAS E0 (T, L):', np.mean(fc_0_err, axis=1))
 print('BIAS E1 (T, L):', np.mean(fc_1_err, axis=1))
@@ -191,6 +201,11 @@ print('STDEV E0 (T, L):', np.std(fc_0_err, axis=1))
 print('STDEV E1 (T, L):', np.std(fc_1_err, axis=1))
 print('Average improve  E0 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_0_err), axis=1))
 print('Average improve E1 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_1_err), axis=1))
+
+ppp.plot_biplot(fc_def_wmae, fc_0_wmae, 'Default ensemble, WMAE, cm',
+                'E. with shifted sources, WMAE, cm', 'pics\\bp_wmae_def_vs_e1.png')
+ppp.plot_biplot(fc_def_wmae, fc_1_wmae, 'Default ensemble, WMAE, cm',
+                'E. with shifted sources and peak forcing, WMAE, cm', 'pics\\bp_wmae_def_vs_e1.png')
 
 ppp.plot_biplot(np.abs(fc_def_err[1]), np.abs(fc_1_err[1]), 'Default ensemble, AE(H), cm',
                 'E. with shifted sources and peak forcing, AE(H), cm', 'pics\\bp_l_def_vs_e1.png')
