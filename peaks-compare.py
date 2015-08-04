@@ -95,7 +95,7 @@ def forecast_error(fc):
 
 pLevel = 80
 source_v_scale_mode = sfp.ScaleType.no_scale
-ensemble_v_scale_mode = sfp.ScaleType.add_all_scale
+ensemble_v_scale_mode = sfp.ScaleType.add_peak_scale
 level_scale_flag_string = ''
 w = create_w_mask(N, 0)
 # w = create_w_mask_from_level(N, 0.05)
@@ -130,7 +130,7 @@ if not os.path.exists(dir_name):
 res_params_array = []
 for i in range(len(p_flt)):
     print('FC #' + str(i))
-    # plt.figure(i, figsize=(10, 7))
+    plt.figure(i, figsize=(10, 7))
     params = []
     res_params = pc[:, 3].flatten()
     for src_i in range(3):
@@ -138,29 +138,29 @@ for i in range(len(p_flt)):
         p2 = [p1[1], p1[0], p1[2] + p1[3], p1[2] / (p1[2] + p1[3])]
         params += [p2]
         res_params = res_params + np.array(p2) * pc[:, src_i].flatten()
-        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
-    # plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
+        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
+    plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
     peak_t = [res_params[1] - res_params[2] * res_params[3],
               res_params[1],
               res_params[1] + res_params[2] * (1.0 - res_params[3])]
     peak_l[1] = res_params[0]
-    # plt.plot(peak_t, peak_l, '^', markersize=10)
-    # plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-')
+    plt.plot(peak_t, peak_l, '^', markersize=10)
+    plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-', lw=2)
     e_fc = np.full(T + 1, c[3])
     for src_i in range(3):
         src_set[src_i][p_flt[i, 0]] = sfp.transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i],
                                                              res_params, T, source_v_scale_mode)
-        # plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
+        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
         e_fc += src_set[src_i][p_flt[i, 0]] * c[src_i]
-    # plt.plot(t_idx, e_fc, 'k--')
+    plt.plot(t_idx, e_fc, 'k--', lw=2)
     e_fc_v = sfp.scale_peak_vertically(e_fc, res_params, T, ensemble_v_scale_mode)
     res_params_array = np.concatenate((res_params_array, res_params))
-    # plt.plot(t_idx, e_fc_v, 'k:')
-    # plt.xlim([0, T])
-    # plt.xlabel('Forecast time, h')
-    # plt.ylabel('Level, cm')
-    # plt.savefig(dir_name + '\\forecast-' + str(i).zfill(3) + '.png')
-    # plt.close()
+    plt.plot(t_idx, e_fc_v, 'k:', lw=2)
+    plt.xlim([0, T])
+    plt.xlabel('Forecast time, h')
+    plt.ylabel('Level, cm')
+    plt.savefig(dir_name + '\\forecast-' + str(i).zfill(3) + '.png')
+    plt.close()
 res_params_array = res_params_array.reshape((len(p_flt), 4))
 
 peak_index = p_flt[:, 0].flatten().astype(int)
@@ -170,6 +170,7 @@ peak_mask[peak_index] = 1
 # default peak errror
 fc_def_err = forecast_peak_error(fc_def[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 fc_def_wmae = fcd.forecast_wmae(fc_def[peak_mask], m_fc[peak_mask], pLevel)
+fc_def_wbias = fcd.forecast_wbias(fc_def[peak_mask], m_fc[peak_mask], pLevel)
 
 # basic ensemble on tuned sources
 c = lse_coeff(src_set, 0, N - 1, w)
@@ -178,6 +179,7 @@ for src_i in range(3):
     fc_1 += src_set[src_i] * c[src_i]
 fc_0_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 fc_0_wmae = fcd.forecast_wmae(fc_1[peak_mask], m_fc[peak_mask], pLevel)
+fc_0_wbias = fcd.forecast_wbias(fc_1[peak_mask], m_fc[peak_mask], pLevel)
 
 # additional peak forcing
 for i in range(len(p_flt)):
@@ -186,11 +188,15 @@ for i in range(len(p_flt)):
                                                   T, ensemble_v_scale_mode)
 fc_1_err = forecast_peak_error(fc_1[peak_mask], m_fc[peak_mask], res_params_array[:, 1].flatten())
 fc_1_wmae = fcd.forecast_wmae(fc_1[peak_mask], m_fc[peak_mask], pLevel)
+fc_1_wbias = fcd.forecast_wbias(fc_1[peak_mask], m_fc[peak_mask], pLevel)
 
 print('== Peak parameters errors ==')
 print('WMAE E. default:', np.mean(fc_def_wmae))
 print('WMAE E0:', np.mean(fc_0_wmae))
 print('WMAE E1:', np.mean(fc_1_wmae))
+print('WBIAS E. default:', np.mean(fc_def_wbias))
+print('WBIAS E0:', np.mean(fc_0_wbias))
+print('WBIAS E1:', np.mean(fc_1_wbias))
 
 print('== Peak parameters errors ==')
 print('BIAS E. default (T, L):', np.mean(fc_def_err, axis=1))
@@ -203,7 +209,7 @@ print('Average improve  E0 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_0_er
 print('Average improve E1 (T, L):', np.mean(np.abs(fc_def_err) - np.abs(fc_1_err), axis=1))
 
 ppp.plot_biplot(fc_def_wmae, fc_0_wmae, 'Default ensemble, WMAE, cm',
-                'E. with shifted sources, WMAE, cm', 'pics\\bp_wmae_def_vs_e1.png')
+                'E. with shifted sources, WMAE, cm', 'pics\\bp_wmae_def_vs_e0.png')
 ppp.plot_biplot(fc_def_wmae, fc_1_wmae, 'Default ensemble, WMAE, cm',
                 'E. with shifted sources and peak forcing, WMAE, cm', 'pics\\bp_wmae_def_vs_e1.png')
 
