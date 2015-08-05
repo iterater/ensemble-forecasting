@@ -95,7 +95,7 @@ def forecast_error(fc):
 
 pLevel = 80
 source_v_scale_mode = sfp.ScaleType.no_scale
-ensemble_v_scale_mode = sfp.ScaleType.add_peak_scale
+ensemble_v_scale_mode = sfp.ScaleType.multiplication_peak_scale
 level_scale_flag_string = ''
 w = create_w_mask(N, 0)
 # w = create_w_mask_from_level(N, 0.05)
@@ -108,7 +108,7 @@ for src_i in range(3):
     fc_def += src_set[src_i] * c[src_i]
 indexRange = np.arange(N)
 
-p = np.genfromtxt('data\\PEAK_PARAMS_S1_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
+p = np.genfromtxt('data\\PEAK_PARAMS_S1_LCUT_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
 pc = np.loadtxt('data\\regr_coeff_'+str(pLevel).zfill(3)+'.txt')
 mask = ~np.isnan(p[:, 0])
 for i in range(13):
@@ -116,10 +116,12 @@ for i in range(13):
 p_flt = p[mask]
 
 # removing bad peaks
-bad_list = [19, 21, 23, 25, 35, 40, 41, 42, 43, 46, 48, 73, 74]  # for 80 cm
+# bad_list = [19, 21, 23, 25, 35, 40, 41, 42, 43, 46, 48, 73, 74]  # for 80 cm
+bad_list = [16, 18, 27, 29, 32, 33, 34, 37, 38, 51]  # for 80 cm LCUT
 good_mask = np.ones(len(p_flt), dtype=bool)
 good_mask[bad_list] = 0
 p_flt = p_flt[good_mask]
+print('N:', sum(good_mask))
 
 t_idx = np.arange(0, 61)
 colors = ('b', 'g', 'r')
@@ -130,7 +132,6 @@ if not os.path.exists(dir_name):
 res_params_array = []
 for i in range(len(p_flt)):
     print('FC #' + str(i))
-    plt.figure(i, figsize=(10, 7))
     params = []
     res_params = pc[:, 3].flatten()
     for src_i in range(3):
@@ -138,23 +139,24 @@ for i in range(len(p_flt)):
         p2 = [p1[1], p1[0], p1[2] + p1[3], p1[2] / (p1[2] + p1[3])]
         params += [p2]
         res_params = res_params + np.array(p2) * pc[:, src_i].flatten()
-        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
-    plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
     peak_t = [res_params[1] - res_params[2] * res_params[3],
               res_params[1],
               res_params[1] + res_params[2] * (1.0 - res_params[3])]
     peak_l[1] = res_params[0]
-    plt.plot(peak_t, peak_l, '^', markersize=10)
-    plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-', lw=2)
     e_fc = np.full(T + 1, c[3])
+    plt.figure(i, figsize=(10, 7))
     for src_i in range(3):
+        plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
         src_set[src_i][p_flt[i, 0]] = sfp.transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i],
                                                              res_params, T, source_v_scale_mode)
         plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '--')
         e_fc += src_set[src_i][p_flt[i, 0]] * c[src_i]
-    plt.plot(t_idx, e_fc, 'k--', lw=2)
     e_fc_v = sfp.scale_peak_vertically(e_fc, res_params, T, ensemble_v_scale_mode)
     res_params_array = np.concatenate((res_params_array, res_params))
+    plt.plot(t_idx, e_fc, 'k--', lw=2)
+    plt.plot(peak_t, peak_l, '^', markersize=10)
+    plt.plot(t_idx, fc_def[p_flt[i, 0]], 'k-', lw=2)
+    plt.plot(t_idx, m_fc[p_flt[i, 0]], 'o', color='k')
     plt.plot(t_idx, e_fc_v, 'k:', lw=2)
     plt.xlim([0, T])
     plt.xlabel('Forecast time, h')
