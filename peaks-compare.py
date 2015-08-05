@@ -95,7 +95,7 @@ def forecast_error(fc):
 
 pLevel = 80
 source_v_scale_mode = sfp.ScaleType.no_scale
-ensemble_v_scale_mode = sfp.ScaleType.multiplication_peak_scale
+ensemble_v_scale_mode = sfp.ScaleType.add_all_scale
 level_scale_flag_string = ''
 w = create_w_mask(N, 0)
 # w = create_w_mask_from_level(N, 0.05)
