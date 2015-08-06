@@ -8,9 +8,11 @@ class ScaleType(Enum):
     add_peak_scale = 2
     add_all_scale = 3
     no_scale = 4
+    multiplication_all_scale = 5
+
 
 # scale forecast vertically to peak
-def scale_peak_vertically(fc, target_peak, t_lim, scale_type):
+def scale_peak_vertically(fc, target_peak, t_lim, scale_type, w_fun):
     p_start = np.round(target_peak[1] - target_peak[2] * target_peak[3])
     p_start = max(p_start, 0)
     p_end = np.round(target_peak[1] + target_peak[2] * (1.0 - target_peak[3]))
@@ -23,9 +25,9 @@ def scale_peak_vertically(fc, target_peak, t_lim, scale_type):
             if t_fc == p_pos:
                 scale[t_fc] = add
             if (t_fc > p_start) and (t_fc < p_pos):
-                scale[t_fc] = add * (t_fc - p_start) / (p_pos - p_start)
+                scale[t_fc] = add * w_fun((t_fc - p_start) / (p_pos - p_start))
             if (t_fc > p_pos) and (t_fc < p_end):
-                scale[t_fc] = add * (p_end - t_fc) / (p_end - p_pos)
+                scale[t_fc] = add * w_fun((p_end - t_fc) / (p_end - p_pos))
         l_res = fc + scale
     elif scale_type == ScaleType.add_all_scale:
         add = target_peak[0] - fc[p_pos]
@@ -37,15 +39,18 @@ def scale_peak_vertically(fc, target_peak, t_lim, scale_type):
             if t_fc == p_pos:
                 scale[t_fc] = mul
             if (t_fc > p_start) and (t_fc < p_pos):
-                scale[t_fc] = 1 + (mul - 1) * (t_fc - p_start) / (p_pos - p_start)
+                scale[t_fc] = 1 + (mul - 1) * w_fun((t_fc - p_start) / (p_pos - p_start))
             if (t_fc > p_pos) and (t_fc < p_end):
-                scale[t_fc] = 1 + (mul - 1) * (p_end - t_fc) / (p_end - p_pos)
+                scale[t_fc] = 1 + (mul - 1) * w_fun((p_end - t_fc) / (p_end - p_pos))
+        l_res = fc * scale
+    elif scale_type == ScaleType.multiplication_all_scale:
+        mul = target_peak[0] / fc[p_pos]
         l_res = fc * mul
     else:
         l_res = fc
     return l_res
 
-def transform_forecast(fc, original_peak, target_peak, t_lim, scale_type):
+def transform_forecast(fc, original_peak, target_peak, t_lim, scale_type, w_fun):
     # Full scale
     # t_src_nodes = [-1, np.round(original_peak[1] - original_peak[2] * original_peak[3]), np.round(original_peak[1]), np.round(original_peak[1] + original_peak[2] * (1.0 - original_peak[3])), T + 1]
     # t_dst_nodes = [-1, int(target_peak[1] - target_peak[2] * target_peak[3]), int(target_peak[1]), int(target_peak[1] + target_peak[2] * (1.0 - target_peak[3])), T + 1]
@@ -64,9 +69,9 @@ def transform_forecast(fc, original_peak, target_peak, t_lim, scale_type):
             if t_fc == t_src_nodes[2]:
                 scale[t_fc] = mult
             if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
-                scale[t_fc] = 1 + (mult - 1) * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
+                scale[t_fc] = 1 + (mult - 1) * w_fun((t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1]))
             if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
-                scale[t_fc] = 1 + (mult - 1) * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
+                scale[t_fc] = 1 + (mult - 1) * w_fun((t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2]))
         l_res = fc * scale
     # additive scale
     elif scale_type == ScaleType.add_peak_scale:
@@ -76,9 +81,9 @@ def transform_forecast(fc, original_peak, target_peak, t_lim, scale_type):
             if t_fc == t_src_nodes[2]:
                 scale[t_fc] = add
             if (t_fc > t_src_nodes[1]) and (t_fc < t_src_nodes[2]):
-                scale[t_fc] = add * (t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1])
+                scale[t_fc] = add * w_fun((t_fc - t_src_nodes[1]) / (t_src_nodes[2] - t_src_nodes[1]))
             if (t_fc > t_src_nodes[2]) and (t_fc < t_src_nodes[3]):
-                scale[t_fc] = add * (t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2])
+                scale[t_fc] = add * w_fun((t_src_nodes[3] - t_fc) / (t_src_nodes[3] - t_src_nodes[2]))
         l_res = fc + scale
     # additive all scale
     elif scale_type == ScaleType.add_all_scale:

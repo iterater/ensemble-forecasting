@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import scipy.optimize as opt
 import matplotlib.pyplot as plt
@@ -88,18 +89,22 @@ def regr_coeff(x, y, param_name):
     # plt.ylabel('Ensemble parameter '+param_name)
     # plt.savefig('pics\\parameter_regression_'+param_name+'.png')
     # plt.close()
-    np.savetxt('data\\pre_parameter_estimation_'+param_name+'.txt', test)
+    np.savetxt('data\\pre_parameter_estimation_'+param_name+'.txt', test, fmt='%0g')
     print_errors(y_flt - test, 'ENS')
     return c
 
 
 def regr_coeff_all(pLevel):
-    if pLevel == 80:
-        # bad_list = [19, 21, 23, 25, 35, 40, 41, 42, 43, 46, 48, 73, 74]  # for 80 cm
-        bad_list = [16, 18, 27, 29, 32, 33, 34, 37, 38, 51]  # for 80 cm LCUT
-    else:
-        bad_list = []
+    print('PEAK LEVEL '+str(pLevel)+' CM')
+    bad_list = np.array([], dtype=int)
+    if os.path.exists('data\\bad_index_LCUT_'+str(pLevel).zfill(3)+'.txt'):
+        bad_list = np.loadtxt('data\\bad_index_LCUT_'+str(pLevel).zfill(3)+'.txt', dtype=int).flatten()
     p = np.genfromtxt('data\\PEAK_PARAMS_S1_LCUT_'+str(pLevel).zfill(3)+'.csv', delimiter=',')
+    mask = ~np.isnan(p[:, 0])
+    for i in range(p.shape[1]):
+        mask &= ~np.isnan(p[:, i])
+    good_mask = np.ones(sum(mask), dtype=bool)
+    good_mask[bad_list] = 0
     p1 = np.zeros(p.shape)
     for i in range(4):
         p1[:, 4*i + 1] = p[:, 4*i + 2]
@@ -107,15 +112,11 @@ def regr_coeff_all(pLevel):
         p1[:, 4*i + 3] = p[:, 4*i + 3] + p[:, 4*i + 4]
         p1[:, 4*i + 4] = p[:, 4*i + 3] / (p[:, 4*i + 3] + p[:, 4*i + 4])
     # mask processing
-    mask = ~np.isnan(p1[:, 0])
-    for i in range(p1.shape[1]):
-        mask &= ~np.isnan(p1[:, i])
-    good_mask = np.ones(sum(mask), dtype=bool)
-    good_mask[bad_list] = 0
     p1 = p1[mask][good_mask]
     src_names = ['BSM-WOWC-HIRLAM', 'BALTP-90M-GFS', 'HIROMB', 'M']
     param_names = ['H', 'T', 'W', 'D']
     res_coeff = []
+    print('N:', len(p1))
     p_cnt = len(param_names)
     s_cnt = len(src_names) - 1
     for p_idx in range(p_cnt):
@@ -141,7 +142,7 @@ def revert_index(idx, N):
 #     print(cf)
 
 # only fixed peak level
-p_level = 80
+p_level = 100
 cf = regr_coeff_all(p_level)
 np.savetxt('data\\regr_coeff_'+str(p_level).zfill(3)+'.txt', cf)
 print(cf)
