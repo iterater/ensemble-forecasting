@@ -100,9 +100,9 @@ def forecast_error(fc, mm):
     return np.mean(ee), np.mean(ae), np.std(ee)
 
 
-pLevel = 80
+pLevel = 100
 plot_forecasts = False
-calc_dtw = False
+calc_dtw = True
 source_v_scale_mode = sfp.ScaleType.no_scale
 ensemble_v_scale_mode = sfp.ScaleType.multiplication_all_scale
 # w_fun = lambda x: mt.exp(-10 * (1 - x)*(1 - x))
