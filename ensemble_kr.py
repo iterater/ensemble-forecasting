@@ -15,9 +15,11 @@ for i in range(n_start, n_stop + 1):
     predicted_errors = np.vstack((predicted_errors, e[1:, 1].flatten()))
 
 original_best_class = np.argmin(original_errors, axis=1)
+print([sum(original_best_class == i) for i in range(7)])
+print(sum(original_best_class == 6) / sum(original_best_class))
 predicted_best_class = np.argmin(predicted_errors, axis=1)
 predicted_selected_error = [original_errors[i, predicted_best_class[i]] for i in range(len(predicted_best_class))]
-print(np.mean(original_errors[:, -1] - predicted_selected_error))
+print(np.mean((original_errors[:, -1] - predicted_selected_error)/original_errors[:, -1]))
 
 colors = ['r', 'g', 'b', 'c', 'm', 'y', 'k']
 
