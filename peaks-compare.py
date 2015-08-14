@@ -100,8 +100,8 @@ def forecast_error(fc, mm):
     return np.mean(ee), np.mean(ae), np.std(ee)
 
 
-pLevel = 100
-plot_forecasts = False
+pLevel = 120
+plot_forecasts = True
 calc_dtw = True
 source_v_scale_mode = sfp.ScaleType.no_scale
 ensemble_v_scale_mode = sfp.ScaleType.multiplication_all_scale
@@ -160,7 +160,7 @@ for i in range(len(p_flt)):
     peak_l[1] = res_params[0]
     e_fc = np.full(T + 1, c[3])
     if plot_forecasts:
-        plt.figure(i, figsize=(10, 7))
+        plt.figure(i, figsize=(8, 6))
     for src_i in range(3):
         plt.plot(t_idx, src_set[src_i][p_flt[i, 0]], colors[src_i] + '-')
         src_set[src_i][p_flt[i, 0]] = sfp.transform_forecast(src_set[src_i][p_flt[i, 0]], params[src_i],
