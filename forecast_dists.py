@@ -91,6 +91,6 @@ def forecast_stdev_err(fc, m_fc):
     :param m_fc: Measurements forecasts array 1 of shape (N,T)
     :return: STDev array of shape (N)
     """
-    fc_diff = np.absolute(fc - m_fc)
+    fc_diff = fc - m_fc
     return np.std(fc_diff, axis=1)
 
