@@ -83,3 +83,14 @@ def forecast_wbias(fc, m_fc, lev_lim):
         else:
             res[i] = np.average((m_fc[i] - fc[i])[mask])
     return res
+
+def forecast_stdev_err(fc, m_fc):
+    """
+    Standard deviation for forecast error
+    :param fc: Forecasts array 1 of shape (N,T)
+    :param m_fc: Measurements forecasts array 1 of shape (N,T)
+    :return: STDev array of shape (N)
+    """
+    fc_diff = np.absolute(fc - m_fc)
+    return np.std(fc_diff, axis=1)
+
