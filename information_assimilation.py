@@ -113,8 +113,6 @@ print('[ASSIM, GLOBAL, HISTORY]: ', np.mean(errs[h_window:, :], axis=0))
 ppp.plot_biplot(errs[h_window:, 0].flatten(), errs[h_window:, 2].flatten(), 'Assimilated ensemble error',
                 'Historical ensemble error', 'pics\\information_assimilation\\ensemble_assimilation_biplot.png')
 
-# COMPARE TO HISORICALLY-TRAINED !!!!
-
 # Distance plot
 if False:
     start_plot = 5

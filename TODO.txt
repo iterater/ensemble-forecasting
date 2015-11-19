@@ -1,4 +1,0 @@
-- (!) Test regression
-- Train without bad forecasts
-- Shift towards best forecast
-- Check regression errors
