@@ -110,6 +110,7 @@ for i in range(8, N):
                       [std_error(i, T, [X1[0, 0], X1[1, 0]]), std_error(i, T, k_opt_glob.x), std_error(i, T, h_k[i])]))
 errs = np.array(errs)
 print('[ASSIM, GLOBAL, HISTORY]: ', np.mean(errs[h_window:, :], axis=0))
+# [ 6.56183368  6.42242255  6.51930591]
 ppp.plot_biplot(errs[h_window:, 0].flatten(), errs[h_window:, 2].flatten(), 'Assimilated ensemble error',
                 'Historical ensemble error', 'pics\\information_assimilation\\ensemble_assimilation_biplot.png')
 
