@@ -78,17 +78,18 @@ else:
 print('cov(X)')
 P = np.matrix(np.cov(np.vstack((all_k1[:, -1].transpose(), all_k2[:, -1].transpose()))))
 print(P)
+TRAINING_STEPS = 7
 obs_error = np.vstack(((all_k1[7:(N - 1), 6-start_cov] - all_k1[8:, -1]).transpose(),
                        (all_k2[7:(N - 1), 6-start_cov] - all_k2[8:, -1]).transpose()))
-for tt in range(2, 8):
+for tt in range(2, TRAINING_STEPS + 1):
     obs_error = np.vstack((obs_error,
                            (all_k1[(8 - tt):(N - tt), tt * 6 - start_cov] - all_k1[8:, -1]).transpose(),
                            (all_k2[(8 - tt):(N - tt), tt * 6 - start_cov] - all_k2[8:, -1]).transpose()))
 R = np.matrix(np.cov(obs_error))
 print('cov(E(Y))')
 print(R)
-C = np.matrix(np.zeros((14, 2)))
-for i in range(14):
+C = np.matrix(np.zeros((TRAINING_STEPS * 2, 2)))
+for i in range(TRAINING_STEPS * 2):
     C[i, i & 1] = 1
 print(C)
 # C P* C' + R
@@ -101,7 +102,7 @@ for i in range(8, N):
     # X = np.matrix(k_opt_glob.x).transpose()
     X = np.matrix(h_k[i]).transpose()
     Y = []
-    for di in range(1, 8):
+    for di in range(1, TRAINING_STEPS + 1):
         Y += [all_k1[i - di, di * 6 - start_cov], all_k2[i - di, di * 6 - start_cov]]
     Ym = np.matrix(Y).transpose()
     X1 = X + np.dot(K, Ym - np.dot(C, X))
