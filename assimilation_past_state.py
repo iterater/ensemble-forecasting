@@ -64,8 +64,8 @@ start_cov = 2
 # Compute LSE historical ensembles
 h_window = 30
 if False:
-    h_k = np.zeros((w, 2))
-    for i in range(w, N):
+    h_k = np.zeros((h_window, 2))
+    for i in range(h_window, N):
         print(i)
         k0 = np.array([0.5, 0.5])
         k_opt = opt.minimize(lambda k: std_error_w(i - h_window, i - 1, T, k, True), k0)
