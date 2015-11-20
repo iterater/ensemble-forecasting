@@ -1,3 +1,5 @@
+# Assimilation of observations within the forecast
+
 import numpy as np
 import matplotlib.pyplot as plt
 import forecast_dists as dist
@@ -64,8 +66,8 @@ start_cov = 2
 # Compute LSE historical ensembles
 h_window = 30
 if False:
-    h_k = np.zeros((w, 2))
-    for i in range(w, N):
+    h_k = np.zeros((h_window, 2))
+    for i in range(h_window, N):
         print(i)
         k0 = np.array([0.5, 0.5])
         k_opt = opt.minimize(lambda k: std_error_w(i - h_window, i - 1, T, k, True), k0)
@@ -75,4 +77,3 @@ else:
     h_k = np.loadtxt('data\\information_assimilation\\historical_ensemble.csv')
 
 # Assimilation of current data
-

@@ -1,3 +1,9 @@
+# Assimilation of ensemble states (coefficients) obtained for previous forecast partly
+# covered with observations. Covered part of the ensemble is used to estimate coefficients.
+# Optimization of ensemble quality is performed using STD of ensemble error (random error).
+# Assimilation applied with with Kalman filter. Results: assimilation doesn't works as
+# ensemble state schanges significantly from forecast to forecast.
+
 import numpy as np
 import matplotlib.pyplot as plt
 import forecast_dists as dist
