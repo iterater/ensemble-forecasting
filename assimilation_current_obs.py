@@ -4,6 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import forecast_dists as dist
 import scipy.optimize as opt
+from sklearn.decomposition import PCA
+from sklearn import linear_model
+from sklearn import svm
+
 import peak_plot_procedures as ppp
 
 
@@ -70,8 +74,46 @@ h_k = np.loadtxt('data\\information_assimilation\\historical_ensemble.csv')
 print('Historical ensemble', h_k.shape)
 
 # Predictors for correlation estimate
-xy = np.vstack((m_fc[:, 0] - h[:, 0], m_fc[:, 0] - s[:, 0]))
-final_state = np.vstack((all_k1[:, -1], all_k2[:, -1]))
-print('Corr(x/y, s):\n', np.corrcoef(xy, h_k.transpose() - final_state))
+xy = np.vstack((m_fc[h_window:, 0], m_fc[h_window:, 0] - h[h_window:, 0], m_fc[h_window:, 0] - s[h_window:, 0]))
+final_state = np.vstack((all_k1[h_window:, -1], all_k2[h_window:, -1]))
+opt_shift = h_k[h_window:].transpose() - final_state
 
-# Assimilation of current data
+# pca for optimal shift
+# pca = PCA(n_components=2)
+# pca_res = pca.fit_transform(opt_shift.transpose())
+# plt.xlabel('PC#1')
+# plt.ylabel('PC#2')
+# plt.plot(pca_res[:, 0], pca_res[:, 1], 'o')
+# plt.show()
+
+# Prediction with liner regression
+# predictor = linear_model.LinearRegression()
+# predictor.fit(xy.transpose(), opt_shift.transpose())
+# predicted_shift = predictor.predict(xy.transpose())
+
+# Prediction with SVM
+predictor = svm.SVR()
+predictor.fit(xy.transpose(), opt_shift[0])
+predicted_shift_0 = predictor.predict(xy.transpose())
+predictor.fit(xy.transpose(), opt_shift[1])
+predicted_shift_1 = predictor.predict(xy.transpose())
+predicted_shift = np.vstack((predicted_shift_0, predicted_shift_1)).transpose()
+
+# Testing results
+print('Corr(x/y, final state):\n', np.corrcoef(xy, opt_shift))
+h_err = np.array([std_error(i, T, h_k[i]) for i in range(h_window, N)])
+g_err = np.array([std_error(i, T, k_opt_glob) for i in range(h_window, N)])
+p_err = np.array([std_error(i, T, h_k[i] - predicted_shift[i - h_window]) for i in range(h_window, N)])
+ppp.plot_biplot(h_err, p_err, 'H-ensemble error, cm', 'H-ensemble + predicted shift error, cm',
+                'pics\\information_assimilation\\predicted_shift.png')
+print('Historical to global:', np.mean(g_err-h_err))
+print('Average improve (shifted to historical):', np.mean(h_err-p_err))
+print('Comparing to global (shifted to historical):', np.mean(g_err-p_err))
+
+#       LR     SVR
+# G-H -0.097 -0.097
+# P-H  0.104  0.830
+# G-P  0.007  0.733
+
+# Cross-validation
+# ???????
