@@ -110,6 +110,25 @@ print('Historical to global:', np.mean(g_err-h_err))
 print('Average improve (shifted to historical):', np.mean(h_err-p_err))
 print('Comparing to global (shifted to historical):', np.mean(g_err-p_err))
 
+# Count autocorrelation
+# MAX_AC_SHIFT = 20
+# ac = np.ones((2, MAX_AC_SHIFT + 1))
+# for i in range(1, MAX_AC_SHIFT + 1):
+#     ac[0, i] = np.corrcoef(all_k1[h_window + MAX_AC_SHIFT:N, -1].flatten(),
+#                            all_k1[h_window + MAX_AC_SHIFT - i:N - i, -1].flatten())[0, 1]
+#     ac[1, i] = np.corrcoef(all_k2[h_window + MAX_AC_SHIFT:N, -1].flatten(),
+#                            all_k2[h_window + MAX_AC_SHIFT - i:N - i, -1].flatten())[0, 1]
+# print(ac)
+# plt.figure(44, figsize=(8, 6))
+# plt.grid()
+# plt.plot(np.arange(0, MAX_AC_SHIFT + 1), ac[0], 'ro-')
+# plt.plot(np.arange(0, MAX_AC_SHIFT + 1), ac[1], 'bo-')
+# plt.legend(('k(h)', 'k(s)'))
+# plt.xlabel('Forecast index shift')
+# plt.ylabel('Autocorrelation')
+# plt.savefig('pics\\information_assimilation\\state_ac.png')
+# plt.close()
+
 #       LR     SVR
 # G-H -0.097 -0.097
 # P-H  0.104  0.830
