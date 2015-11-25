@@ -100,7 +100,8 @@ predicted_shift_1 = predictor.predict(xy.transpose())
 predicted_shift = np.vstack((predicted_shift_0, predicted_shift_1)).transpose()
 
 # Testing results
-print('Corr(x/y, final state):\n', np.corrcoef(xy, opt_shift))
+cc = np.corrcoef(xy, opt_shift)
+print('Corr(x/y, final state):\n', cc[0:len(xy), len(xy):])
 h_err = np.array([std_error(i, T, h_k[i]) for i in range(h_window, N)])
 g_err = np.array([std_error(i, T, k_opt_glob) for i in range(h_window, N)])
 p_err = np.array([std_error(i, T, h_k[i] - predicted_shift[i - h_window]) for i in range(h_window, N)])
@@ -109,6 +110,11 @@ ppp.plot_biplot(h_err, p_err, 'H-ensemble error, cm', 'H-ensemble + predicted sh
 print('Historical to global:', np.mean(g_err-h_err))
 print('Average improve (shifted to historical):', np.mean(h_err-p_err))
 print('Comparing to global (shifted to historical):', np.mean(g_err-p_err))
+
+#       LR     SVR
+# G-H -0.097 -0.097
+# P-H  0.104  0.830
+# G-P  0.007  0.733
 
 # Count autocorrelation
 # MAX_AC_SHIFT = 20
@@ -129,10 +135,36 @@ print('Comparing to global (shifted to historical):', np.mean(g_err-p_err))
 # plt.savefig('pics\\information_assimilation\\state_ac.png')
 # plt.close()
 
-#       LR     SVR
-# G-H -0.097 -0.097
-# P-H  0.104  0.830
-# G-P  0.007  0.733
+# Cross-validation (K-fold)
+K = 10
+h_err = np.array([])
+p_err = np.array([])
+ALL_N = xy.shape[1]
+K_W = int(ALL_N / K)
+predictor = svm.SVR(kernel='linear', C=1)
+for kk in range(K):
+    print('K-fold:', kk * K_W, '-', (kk + 1) * K_W - 1)
+    test_index = (np.arange(ALL_N) >= kk * K_W) & (np.arange(ALL_N) < (kk + 1) * K_W)
+    predictor.fit(xy.transpose()[~test_index], opt_shift[0][~test_index])
+    predicted_shift_0 = predictor.predict(xy.transpose()[test_index])
+    predictor.fit(xy.transpose()[~test_index], opt_shift[1][~test_index])
+    predicted_shift_1 = predictor.predict(xy.transpose()[test_index])
+    predicted_shift = np.vstack((predicted_shift_0, predicted_shift_1)).transpose()
+    h_err_t = np.array([std_error(h_window + kk * K_W + i, T, h_k[h_window + kk * K_W + i]) for i in range(K_W)])
+    p_err_t = np.array([std_error(h_window + kk * K_W + i, T, h_k[h_window + kk * K_W + i] - predicted_shift[i])
+                        for i in range(K_W)])
+    h_err = np.hstack((h_err, h_err_t))
+    p_err = np.hstack((p_err, p_err_t))
+ppp.plot_biplot(h_err, p_err, 'H-ensemble error, cm', 'H-ensemble + predicted shift error, cm',
+                'pics\\information_assimilation\\predicted_shift_crossvalidation.png')
+print('Cross-validation. Average improve (shifted to historical):', np.mean(h_err-p_err))
+plt.figure(44, figsize=(8, 6))
+plt.hist(h_err-p_err, bins=30, normed=True)
+plt.xlabel('Error improve, cm')
+plt.savefig('pics\\information_assimilation\\predicted_shift_crossvalidation_improve.png')
+plt.close()
 
-# Cross-validation
-# ???????
+# SVM (linear kernel, C=1): +0.027
+# SVM (linear kernel, C=1e2): +0.010
+# SVM (linear kernel, C=1e-2): +0.027
+# SVM (rbf kernel, C=1e-4): +0.019
