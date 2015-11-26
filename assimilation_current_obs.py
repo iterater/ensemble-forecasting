@@ -7,9 +7,10 @@ import scipy.optimize as opt
 from sklearn.decomposition import PCA
 from sklearn import linear_model
 from sklearn import svm
-
+import seaborn as sns
 import peak_plot_procedures as ppp
 
+sns.set_style("whitegrid")
 
 h = np.loadtxt('data/2011/2011080100_hiromb_GI_60x434.txt') - 37.356
 s = np.loadtxt('data/2011/2011080100_swan_GI_48x434.txt')
@@ -158,8 +159,10 @@ for kk in range(K):
 ppp.plot_biplot(h_err, p_err, 'H-ensemble error, cm', 'H-ensemble + predicted shift error, cm',
                 'pics\\information_assimilation\\predicted_shift_crossvalidation.png')
 print('Cross-validation. Average improve (shifted to historical):', np.mean(h_err-p_err))
+
 plt.figure(44, figsize=(8, 6))
-plt.hist(h_err-p_err, bins=30, normed=True)
+# plt.hist(h_err-p_err, bins=30, normed=True)
+sns.distplot(h_err-p_err, norm_hist=True, bins=30)
 plt.xlabel('Error improve, cm')
 plt.savefig('pics\\information_assimilation\\predicted_shift_crossvalidation_improve.png')
 plt.close()
