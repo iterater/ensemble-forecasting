@@ -119,6 +119,5 @@ for train, test in kf.split(diff):
     predicted.append([k1_predicted[0], k2_predicted[0]])
 predicted = np.array(predicted)
 
-# plt.savefig('fig-{0}.png'.format(t))
-    
-# TODO: slope, intercept, squizness
+# TODO: Изменение площади покрытия (пересечение, старая-новая) при переходе
+# TODO: Расстояние текущего минимума от глобального
